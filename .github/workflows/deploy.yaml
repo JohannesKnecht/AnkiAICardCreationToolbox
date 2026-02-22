@@ -18,6 +18,9 @@ jobs:
 
   testApi:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend/AnkiAICardCreationToolboxBackend
     steps:
       - uses: actions/checkout@v2
 
@@ -31,13 +34,16 @@ jobs:
           pip install uv
 
       - name: Install Dependencies
-        run: cd backend/AnkiAICardCreationToolboxBackend && uv sync
+        run: uv sync
 
       - name: Run Tests
-        run: cd backend/AnkiAICardCreationToolboxBackend && uv run pytest
+        run: uv run pytest
 
   TestFrontend:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend/AnkiAICardCreationFrontend
     steps:
       - uses: actions/checkout@v2
 
@@ -47,13 +53,13 @@ jobs:
           node-version: '25.x'
 
       - name: Install Dependencies
-        run: cd frontend/AnkiAICardCreationFrontend && npm install
+        run: npm install
 
       - name: Build
-        run: cd frontend/AnkiAICardCreationFrontend && npm run build
+        run: npm run build
 
       - name: Test
-        run: cd frontend/AnkiAICardCreationFrontend && npm run test:unit
+        run: npm run test:unit
 
 
 
@@ -83,6 +89,9 @@ jobs:
     needs: [terraformbackend]
     name: "Terraform"
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./infrastructure
     outputs:
       backend_url: ${{ steps.capture.outputs.backend_url }}
       frontend_url: ${{ steps.capture.outputs.frontend_url }}
