@@ -187,7 +187,7 @@ jobs:
       - name: 'Deploy fe to Cloud Run'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
-          gcloud run deploy ${{ needs.terraform_apply.outputs.frontend_name }} \
+          gcloud run deploy ${{ needs.terraform.outputs.frontend_name }} \
             --image gcr.io/${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }} \
             --region $LOCATION \
             --platform managed \
@@ -245,7 +245,7 @@ jobs:
       - name: 'Deploy be to Cloud Run'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
-          gcloud run deploy ${{ needs.terraform_apply.outputs.backend_name }} \
+          gcloud run deploy ${{ needs.terraform.outputs.backend_name }} \
             --image gcr.io/${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }} \
             --region $LOCATION \
             --platform managed \
