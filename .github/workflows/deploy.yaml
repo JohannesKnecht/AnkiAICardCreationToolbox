@@ -64,7 +64,6 @@ jobs:
 
 
   terraformbackend:
-    needs: [testApi, testFrontend]
     permissions:
       contents: 'read'
       id-token: 'write'
