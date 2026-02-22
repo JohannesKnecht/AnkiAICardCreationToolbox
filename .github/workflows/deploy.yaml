@@ -188,7 +188,8 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           gcloud run deploy ${{ needs.terraform.outputs.frontend_name }} \
-            --image gcr.io/${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }}
+            --image gcr.io/${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }} \
+            --region $LOCATION
 
   BuildPushDeployBE:
     needs: [ terraform, TestApi ]
@@ -240,7 +241,8 @@ jobs:
         run: |
           gcloud run deploy ${{ needs.terraform.outputs.backend_name }} \
             --image gcr.io/${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }} \
-            --update-secrets=OPENAI_API_KEY=openai:latest
+            --update-secrets=OPENAI_API_KEY=openai:latest \
+            --region $LOCATION
   
 
   testDeployment:
