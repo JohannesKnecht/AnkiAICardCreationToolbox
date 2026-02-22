@@ -2,10 +2,16 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "6.8.0"
+      version = "7.2.0"
     }
+    time = {
+      source  = "hashicorp/time"
+      version = "0.13.1"
+    }
+
   }
 }
+
 
 provider "google" {
   project = "ankiaicardcreationtoolbox"
@@ -34,9 +40,6 @@ resource "local_file" "default" {
   file_permission = "0644"
   filename        = "${path.module}/backend.tf"
 
-  # You can store the template in a file and use the templatefile function for
-  # more modularity, if you prefer, instead of storing the template inline as
-  # we do here.
   content = <<-EOT
   terraform {
     backend "gcs" {
@@ -44,4 +47,31 @@ resource "local_file" "default" {
     }
   }
   EOT
+}
+
+
+
+resource "google_project_service" "cloud_resource_manager" {
+  service = "cloudresourcemanager.googleapis.com"
+}
+
+resource "time_sleep" "wait_60_seconds" {
+  depends_on      = [google_project_service.cloud_resource_manager]
+  create_duration = "60s"
+}
+
+resource "google_project_service" "container_registry" {
+  service    = "containerregistry.googleapis.com"
+  depends_on = [time_sleep.wait_60_seconds]
+
+}
+
+resource "google_project_service" "run" {
+  service    = "run.googleapis.com"
+  depends_on = [time_sleep.wait_60_seconds]
+}
+
+resource "google_project_service" "secretmanager" {
+  service    = "secretmanager.googleapis.com"
+  depends_on = [time_sleep.wait_60_seconds]
 }

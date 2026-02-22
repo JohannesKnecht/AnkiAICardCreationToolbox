@@ -1,0 +1,266 @@
+name: "Deploy"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+env:
+  TERRAFORM_BACKEND_BUCKET: f618ad7356200906-terraform-remote-backend
+  FE_IMAGE_NAME: ankiaicardcreationtoolboxfrontend
+  BE_IMAGE_NAME: ankiaicardcreationtoolboxbackend
+  PROJECT: ankiaicardcreationtoolbox
+  LOCATION: us-central1
+
+
+jobs:
+
+  testApi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install uv
+        run: |
+          pip install uv
+          poetry --version
+
+      - name: Install Dependencies
+        run: cd backend/AnkiAICardCreationToolboxBackend && uv sync
+
+      - name: Run Tests
+        run: cd backend/AnkiAICardCreationToolboxBackend && uv run pytest
+
+  TestFrontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.x'
+
+      - name: Install Dependencies
+        run: cd frontend/AnkiAICardCreationFrontend && npm install
+
+      - name: Build
+        run: frontend/AnkiAICardCreationFrontend && npm run build
+
+      - name: Test
+        run: frontend/AnkiAICardCreationFrontend && npm run test:unit
+
+
+
+  terraformbackend:
+    needs: [testApi, testFrontend]
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: hashicorp/setup-terraform@v2
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v0'
+      with:
+        credentials_json: '${{ secrets.GCP_CREDENTIAL }}'
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v0'
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info'
+    - name: check/ create bucket
+      run:  gsutil ls -p "$PROJECT" -b gs://"$TERRAFORM_BACKEND_BUCKET" || gsutil mb -p "$PROJECT" -l "$LOCATION" "gs://$TERRAFORM_BACKEND_BUCKET"
+
+
+  terraform:
+    needs: [terraformbackend]
+    name: "Terraform"
+    runs-on: ubuntu-latest
+    outputs:
+      backend_url: ${{ steps.capture.outputs.backend_url }}
+      frontend_url: ${{ steps.capture.outputs.frontend_url }}
+      backend_name: ${{ steps.capture.outputs.backend_name }}
+      frontend_name: ${{ steps.capture.outputs.frontend_name }}
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIAL }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve -input=false
+
+
+      - name: Capture Terraform output
+        id: output
+        run: |
+          BACKEND_URL=$(terraform output -raw backend_url)
+          echo "BACKEND_URL=$BACKEND_URL" >> $GITHUB_ENV
+          
+          FRONTEND_URL=$(terraform output -raw frontend_url)
+          echo "FRONTEND_URL=$FRONTEND_URL" >> $GITHUB_ENV
+          
+          BACKEND_NAME=$(terraform output -raw backend_name)
+          echo "BACKEND_NAME=BACKEND_NAME" >> $GITHUB_ENV
+          
+          FRONTEND_NAME=$(terraform output -raw frontend_name)
+          echo "FRONTEND_NAME=FRONTEND_NAME" >> $GITHUB_ENV
+          
+          
+
+  BuildPushDeployFE:
+    needs: [terraform]
+    name: "Build Push and Deploy Frontend"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIAL }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      - name: 'Login to GCR'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: docker/login-action@v1
+        with:
+          registry: gcr.io
+          username: _json_key
+          password: ${{ secrets.GCP_CREDENTIAL }}
+
+      - name: 'Build and push fe Docker image'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: docker/build-push-action@v2
+        with:
+          context: frontend/AnkiAICardCreationFrontend
+          file: frontend/AnkiAICardCreationFrontend/Dockerfile
+          push: true
+          tags: gcr.io/${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }}
+
+      - name: 'Deploy fe to Cloud Run'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          gcloud run deploy ${{ env.FE_SERVICE_NAME }} \
+            --image gcr.io/${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }} \
+            --region $LOCATION \
+            --platform managed \
+            --allow-unauthenticated \
+            --min-instances=0 \
+            --max-instances=1 \
+            --cpu=1 \
+            --memory=1Gi
+
+
+  BuildPushDeployBE:
+    needs: [terraform]
+    name: "Build Push and Deploy Backend"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIAL }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      - name: 'Login to GCR'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: docker/login-action@v1
+        with:
+          registry: gcr.io
+          username: _json_key
+          password: ${{ secrets.GCP_CREDENTIAL }}
+
+
+      - name: 'Build and push be Docker image'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: docker/build-push-action@v2
+        with:
+          context: backend/AnkiAICardCreationToolboxBackend/
+          file: backend/AnkiAICardCreationToolboxBackend/Dockerfile
+          push: true
+          tags: gcr.io/${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}
+
+
+      - name: 'Create Secret in Secret Manager'
+        run: |
+          if ! gcloud secrets describe openai --project="${{ env.PROJECT }}" ; then
+            echo "${{ secrets.OPENAI_API_KEY }}" | gcloud secrets create openai --data-file=- --project="${{ env.PROJECT }}"
+          fi
+
+      - name: 'Deploy be to Cloud Run'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          gcloud run deploy ${{ needs.terraform_apply.outputs.backend_name }} \
+            --image gcr.io/${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }} \
+            --region $LOCATION \
+            --platform managed \
+            --allow-unauthenticated  \
+            --update-secrets=OPENAI_API_KEY=openai:latest \
+            --max-instances=1 \
+            --min-instances=0 \
+            --cpu=2 \
+            --memory=2Gi
+          
+
+  testDeployment:
+    needs: [BuildPushDeployFE, BuildPushDeployBE]
+    name: "Test Deployment"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: 'Test Deployment'
+        run: |
+          echo "todo"
