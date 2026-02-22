@@ -1,8 +1,9 @@
 resource "google_cloud_run_v2_service" "backend_service" {
-  name                = "${random_id.default.hex}-backend-service"
-  location            = "us-central1"
-  deletion_protection = false
-  ingress             = "INGRESS_TRAFFIC_ALL"
+  name                 = "${random_id.default.hex}-backend-service"
+  location             = "us-central1"
+  deletion_protection  = false
+  ingress              = "INGRESS_TRAFFIC_ALL"
+  invoker_iam_disabled = true
 
 
   scaling {
@@ -27,10 +28,11 @@ resource "google_cloud_run_v2_service" "backend_service" {
 }
 
 resource "google_cloud_run_v2_service" "frontend_service" {
-  name                = "${random_id.default.hex}-frontend-service"
-  location            = "us-central1"
-  deletion_protection = false
-  ingress             = "INGRESS_TRAFFIC_ALL"
+  name                 = "${random_id.default.hex}-frontend-service"
+  location             = "us-central1"
+  deletion_protection  = false
+  ingress              = "INGRESS_TRAFFIC_ALL"
+  invoker_iam_disabled = true
 
   scaling {
     max_instance_count = 1
