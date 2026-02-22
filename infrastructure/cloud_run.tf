@@ -13,6 +13,9 @@ resource "google_cloud_run_v2_service" "backend_service" {
   template {
     containers {
       image = "us-docker.pkg.dev/cloudrun/container/hello"
+      ports {
+        container_port = 8080
+      }
       resources {
         limits = {
           cpu    = "2"

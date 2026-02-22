@@ -41,9 +41,4 @@ ENTRYPOINT []
 # Use the non-root user to run our application
 USER nonroot
 
-# Run the FastAPI application by default
-# Uses `uv run` to sync dependencies on startup, respecting UV_NO_DEV
-# Uses `fastapi dev` to enable hot-reloading when the `watch` sync occurs
-# Uses `--host 0.0.0.0` to allow access from outside the container
-# Note in production, you should use `fastapi run` instead
-CMD ["uv", "run", "fastapi", "dev", "--host", "0.0.0.0", "src/uv_docker_example"]
+CMD ["fastapi", "run", "main.py", "--port", "8080"]
