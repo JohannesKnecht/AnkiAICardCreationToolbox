@@ -1,0 +1,24 @@
+version: '3'
+
+tasks:
+  build-backend:
+    cmds:
+      - task: build-image
+        vars:
+          DOCKER_IMAGE: ankiaicardcreationtoolboxbackend
+          DOCKER_FILE_PATH: backend/AnkiAICardCreationToolboxBackend/Dockerfile
+          CONTEXT_PATH: backend/AnkiAICardCreationToolboxBackend/
+
+  build-frontend:
+    cmds:
+      - task: build-image
+        vars:
+          DOCKER_IMAGE: ankiaicardcreationtoolboxfrontend
+          DOCKER_FILE_PATH: frontend/AnkiAICardCreationFrontend/Dockerfile
+          CONTEXT_PATH: frontend/AnkiAICardCreationFrontend/
+
+
+  build-image:
+    internal: true
+    cmds:
+      - docker build -t {{.DOCKER_IMAGE}} -f {{.DOCKER_FILE_PATH}} ./{{.CONTEXT_PATH}}
