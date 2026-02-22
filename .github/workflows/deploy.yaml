@@ -142,10 +142,10 @@ jobs:
           echo "FRONTEND_URL=$FRONTEND_URL" >> $GITHUB_OUTPUT
           
           BACKEND_NAME=$(terraform output -raw backend_name)
-          echo "BACKEND_NAME=BACKEND_NAME" >> $GITHUB_OUTPUT
+          echo "BACKEND_NAME=$BACKEND_NAME" >> $GITHUB_OUTPUT
           
           FRONTEND_NAME=$(terraform output -raw frontend_name)
-          echo "FRONTEND_NAME=FRONTEND_NAME" >> $GITHUB_OUTPUT
+          echo "FRONTEND_NAME=$FRONTEND_NAME" >> $GITHUB_OUTPUT
   
 
   BuildPushDeployFE:
