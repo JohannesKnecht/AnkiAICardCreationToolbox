@@ -69,22 +69,22 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: hashicorp/setup-terraform@v2
-    - id: 'auth'
-      uses: 'google-github-actions/auth@v3'
-      with:
-        credentials_json: '${{ secrets.GCP_CREDENTIAL }}'
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v3'
-    - name: 'Use gcloud CLI'
-      run: 'gcloud info'
-    - name: check/ create bucket
-      run:  gsutil ls -p "$PROJECT" -b gs://"$TERRAFORM_BACKEND_BUCKET" || gsutil mb -p "$PROJECT" -l "$LOCATION" "gs://$TERRAFORM_BACKEND_BUCKET"
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v3'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIAL }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v3'
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+      - name: check/ create bucket
+        run: gsutil ls -p "$PROJECT" -b gs://"$TERRAFORM_BACKEND_BUCKET" || gsutil mb -p "$PROJECT" -l "$LOCATION" "gs://$TERRAFORM_BACKEND_BUCKET"
 
 
   terraform:
-    needs: [terraformbackend, TestFrontend, testApi]
+    needs: [ terraformbackend ]
     name: "Terraform"
     runs-on: ubuntu-latest
     defaults:
@@ -144,11 +144,10 @@ jobs:
           
           FRONTEND_NAME=$(terraform output -raw frontend_name)
           echo "FRONTEND_NAME=FRONTEND_NAME" >> $GITHUB_ENV
-          
-          
+  
 
   BuildPushDeployFE:
-    needs: [terraform]
+    needs: [ terraform, TestFrontend ]
     name: "Build Push and Deploy Frontend"
     runs-on: ubuntu-latest
     permissions:
@@ -198,7 +197,7 @@ jobs:
 
 
   BuildPushDeployBE:
-    needs: [terraform]
+    needs: [ terraform, testApi ]
     name: "Build Push and Deploy Backend"
     runs-on: ubuntu-latest
     permissions:
@@ -254,10 +253,10 @@ jobs:
             --min-instances=0 \
             --cpu=2 \
             --memory=2Gi
-          
+  
 
   testDeployment:
-    needs: [BuildPushDeployFE, BuildPushDeployBE]
+    needs: [ BuildPushDeployFE, BuildPushDeployBE ]
     name: "Test Deployment"
     runs-on: ubuntu-latest
     permissions:
