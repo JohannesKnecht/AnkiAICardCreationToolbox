@@ -85,7 +85,7 @@ jobs:
 
 
   terraform:
-    needs: [terraformbackend]
+    needs: [terraformbackend, TestFrontend, testApi]
     name: "Terraform"
     runs-on: ubuntu-latest
     defaults:
