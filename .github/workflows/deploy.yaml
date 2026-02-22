@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
 
 env:
   TERRAFORM_BACKEND_BUCKET: f618ad7356200906-terraform-remote-backend
