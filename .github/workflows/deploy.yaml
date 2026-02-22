@@ -15,7 +15,7 @@ env:
 
 jobs:
 
-  testApi:
+  TestApi:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -62,7 +62,7 @@ jobs:
 
 
 
-  terraformbackend:
+  EnsureTerraformbackendExists:
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -84,7 +84,7 @@ jobs:
 
 
   terraform:
-    needs: [ terraformbackend ]
+    needs: [ EnsureTerraformbackendExists ]
     name: "Terraform"
     runs-on: ubuntu-latest
     defaults:
@@ -199,7 +199,7 @@ jobs:
 
 
   BuildPushDeployBE:
-    needs: [ terraform, testApi ]
+    needs: [ terraform, TestApi ]
     name: "Build Push and Deploy Backend"
     runs-on: ubuntu-latest
     permissions:
