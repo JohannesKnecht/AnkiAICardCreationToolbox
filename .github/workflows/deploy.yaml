@@ -242,6 +242,11 @@ jobs:
             echo "${{ secrets.OPENAI_API_KEY }}" | gcloud secrets create openai --data-file=- --project="${{ env.PROJECT }}"
           fi
 
+      - name: 'Debug Service name'
+        run: |
+          echo ${{ needs.terraform.outputs.backend_name }}
+          
+
       - name: 'Deploy be to Cloud Run'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
