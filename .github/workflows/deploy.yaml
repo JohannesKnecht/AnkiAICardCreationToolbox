@@ -91,10 +91,10 @@ jobs:
       run:
         working-directory: ./infrastructure
     outputs:
-      backend_url: ${{ steps.capture.outputs.backend_url }}
-      frontend_url: ${{ steps.capture.outputs.frontend_url }}
-      backend_name: ${{ steps.capture.outputs.backend_name }}
-      frontend_name: ${{ steps.capture.outputs.frontend_name }}
+      backend_url: ${{ steps.terraform-output.outputs.backend_url }}
+      frontend_url: ${{ steps.terraform-output.outputs.frontend_url }}
+      backend_name: ${{ steps.terraform-output.outputs.backend_name }}
+      frontend_name: ${{ steps.terraform-output.outputs.frontend_name }}
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -133,7 +133,7 @@ jobs:
 
 
       - name: Capture Terraform output
-        id: output
+        id: terraform-output
         run: |
           BACKEND_URL=$(terraform output -raw backend_url)
           echo "BACKEND_URL=$BACKEND_URL" >> $GITHUB_OUTPUT
@@ -241,12 +241,6 @@ jobs:
           if ! gcloud secrets describe openai --project="${{ env.PROJECT }}" ; then
             echo "${{ secrets.OPENAI_API_KEY }}" | gcloud secrets create openai --data-file=- --project="${{ env.PROJECT }}"
           fi
-
-      - name: 'Debug Service name'
-        run: |
-          echo ${{ needs.terraform.outputs.backend_name }}
-          
-
 
       - name: 'Deploy be to Cloud Run'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
