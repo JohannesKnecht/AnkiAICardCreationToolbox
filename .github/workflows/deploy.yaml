@@ -134,16 +134,16 @@ jobs:
       - name: Capture Terraform output
         id: output
         run: |
-          BACKEND_URL=$(terraform output -raw backend_url)
+          BACKEND_URL=$(terraform output backend_url)
           echo "BACKEND_URL=$BACKEND_URL" >> $GITHUB_ENV
           
-          FRONTEND_URL=$(terraform output -raw frontend_url)
+          FRONTEND_URL=$(terraform output frontend_url)
           echo "FRONTEND_URL=$FRONTEND_URL" >> $GITHUB_ENV
           
-          BACKEND_NAME=$(terraform output -raw backend_name)
+          BACKEND_NAME=$(terraform output backend_name)
           echo "BACKEND_NAME=BACKEND_NAME" >> $GITHUB_ENV
           
-          FRONTEND_NAME=$(terraform output -raw frontend_name)
+          FRONTEND_NAME=$(terraform output frontend_name)
           echo "FRONTEND_NAME=FRONTEND_NAME" >> $GITHUB_ENV
           
           
