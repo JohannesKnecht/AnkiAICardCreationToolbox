@@ -50,10 +50,10 @@ jobs:
         run: cd frontend/AnkiAICardCreationFrontend && npm install
 
       - name: Build
-        run: frontend/AnkiAICardCreationFrontend && npm run build
+        run: cd frontend/AnkiAICardCreationFrontend && npm run build
 
       - name: Test
-        run: frontend/AnkiAICardCreationFrontend && npm run test:unit
+        run: cd frontend/AnkiAICardCreationFrontend && npm run test:unit
 
 
 
