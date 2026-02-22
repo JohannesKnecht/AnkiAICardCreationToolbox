@@ -78,7 +78,7 @@ jobs:
       with:
         credentials_json: '${{ secrets.GCP_CREDENTIAL }}'
     - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v0'
+      uses: 'google-github-actions/setup-gcloud@v3'
     - name: 'Use gcloud CLI'
       run: 'gcloud info'
     - name: check/ create bucket
@@ -108,7 +108,7 @@ jobs:
         with:
           credentials_json: '${{ secrets.GCP_CREDENTIAL }}'
       - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v0'
+        uses: 'google-github-actions/setup-gcloud@v3'
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
 
@@ -164,7 +164,7 @@ jobs:
         with:
           credentials_json: '${{ secrets.GCP_CREDENTIAL }}'
       - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v0'
+        uses: 'google-github-actions/setup-gcloud@v3'
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
 
@@ -214,7 +214,7 @@ jobs:
         with:
           credentials_json: '${{ secrets.GCP_CREDENTIAL }}'
       - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v0'
+        uses: 'google-github-actions/setup-gcloud@v3'
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
 
