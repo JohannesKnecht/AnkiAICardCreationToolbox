@@ -75,6 +75,8 @@ jobs:
         with:
           service_account: 'ankiaicardcreationtoolboxsa@ankiaicardcreationtoolbox.iam.gserviceaccount.com'
           workload_identity_provider: 'projects/1041428280183/locations/global/workloadIdentityPools/github/providers/ankiaicardcreationtoolbox2'
+          create_credentials_file: true
+          export_environment_variables: true
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v3'
       - name: 'Use gcloud CLI'
@@ -104,6 +106,8 @@ jobs:
         with:
           service_account: 'ankiaicardcreationtoolboxsa@ankiaicardcreationtoolbox.iam.gserviceaccount.com'
           workload_identity_provider: 'projects/1041428280183/locations/global/workloadIdentityPools/github/providers/ankiaicardcreationtoolbox2'
+          create_credentials_file: true
+          export_environment_variables: true
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v3'
       - name: 'Use gcloud CLI'
@@ -161,6 +165,8 @@ jobs:
         with:
           service_account: 'ankiaicardcreationtoolboxsa@ankiaicardcreationtoolbox.iam.gserviceaccount.com'
           workload_identity_provider: 'projects/1041428280183/locations/global/workloadIdentityPools/github/providers/ankiaicardcreationtoolbox2'
+          create_credentials_file: true
+          export_environment_variables: true
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v3'
       - name: 'Use gcloud CLI'
@@ -204,6 +210,8 @@ jobs:
         with:
           service_account: 'ankiaicardcreationtoolboxsa@ankiaicardcreationtoolbox.iam.gserviceaccount.com'
           workload_identity_provider: 'projects/1041428280183/locations/global/workloadIdentityPools/github/providers/ankiaicardcreationtoolbox2'
+          create_credentials_file: true
+          export_environment_variables: true
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v3'
       - name: 'Use gcloud CLI'
