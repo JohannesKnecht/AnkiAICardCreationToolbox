@@ -80,8 +80,7 @@ jobs:
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
       - name: check/ create bucket
-        run: gsutil ls -p "$PROJECT" -b gs://"$TERRAFORM_BACKEND_BUCKET" || gsutil mb -p "$PROJECT" -l "$LOCATION" "gs://$TERRAFORM_BACKEND_BUCKET"
-
+        run: gcloud storage buckets describe "gs://$TERRAFORM_BACKEND_BUCKET" --project="$PROJECT" || gcloud storage buckets create "gs://$TERRAFORM_BACKEND_BUCKET" --project="$PROJECT" --location="$LOCATION"
 
   terraform:
     needs: [ EnsureTerraformbackendExists ]
