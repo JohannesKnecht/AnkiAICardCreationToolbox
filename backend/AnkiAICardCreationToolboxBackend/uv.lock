@@ -106,10 +106,6 @@ dependencies = [
     { name = "pip" },
     { name = "python-dotenv" },
     { name = "tavily-python" },
-]
-
-[package.optional-dependencies]
-website-text-extraction = [
     { name = "trafilatura" },
 ]
 
@@ -127,9 +123,8 @@ requires-dist = [
     { name = "pip", specifier = ">=26.0.1" },
     { name = "python-dotenv", specifier = ">=1.2.1" },
     { name = "tavily-python", specifier = ">=0.7.21" },
-    { name = "trafilatura", marker = "extra == 'website-text-extraction'", specifier = ">=2.0.0" },
+    { name = "trafilatura", specifier = ">=2.0.0" },
 ]
-provides-extras = ["website-text-extraction"]
 
 [package.metadata.requires-dev]
 dev = [
