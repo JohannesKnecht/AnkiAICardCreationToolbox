@@ -264,6 +264,8 @@ jobs:
   
 
   testDeployment:
+    concurrency:
+      group: deployment-group
     needs: [ BuildPushDeployFE, BuildPushDeployBE ]
     name: "Test Deployment"
     runs-on: ubuntu-latest
