@@ -65,6 +65,9 @@ jobs:
 
 
   EnsureTerraformbackendExists:
+    concurrency:
+      group: deployment-group
+      cancel-in-progress: true
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -87,6 +90,8 @@ jobs:
         run: gcloud storage buckets describe "gs://$TERRAFORM_BACKEND_BUCKET" --project="$PROJECT" || gcloud storage buckets create "gs://$TERRAFORM_BACKEND_BUCKET" --project="$PROJECT" --location="$LOCATION"
 
   terraform:
+    concurrency:
+      group: deployment-group
     needs: [ EnsureTerraformbackendExists ]
     name: "Terraform"
     runs-on: ubuntu-latest
@@ -154,6 +159,8 @@ jobs:
   
 
   BuildPushDeployFE:
+    concurrency:
+      group: deployment-group
     needs: [ terraform, TestFrontend ]
     name: "Build Push and Deploy Frontend"
     runs-on: ubuntu-latest
@@ -199,6 +206,8 @@ jobs:
             --region $LOCATION
 
   BuildPushDeployBE:
+    concurrency:
+      group: deployment-group
     needs: [ terraform, TestApi ]
     name: "Build Push and Deploy Backend"
     runs-on: ubuntu-latest
