@@ -13,16 +13,16 @@ dependencies = [
     "deepagents>=0.4.3",
     "tavily-python>=0.7.21", # required by langgraph
     "python-dotenv>=1.2.1",
+    "trafilatura>=2.0.0",
 ]
+
 
 [dependency-groups]
 dev = [
     "pytest>=9.0.2",
     "httpx>=0.28.1", # required for fastapi testing
 ]
-website_text_extraction = [
-    "trafilatura>=2.0.0",
-]
+
 
 
 [project.scripts]
