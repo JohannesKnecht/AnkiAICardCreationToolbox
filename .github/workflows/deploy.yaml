@@ -264,7 +264,6 @@ jobs:
             --image gcr.io/${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }} \
             --update-secrets=OPENAI_API_KEY=openai:latest \
             --region $LOCATION
-  
 
   testDeployment:
     concurrency:
