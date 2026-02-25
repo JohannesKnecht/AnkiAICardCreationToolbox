@@ -279,6 +279,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: 'Wait for function to start'
+        run: |
+            sleep 120
       - name: 'Test Frontend Deployment'
         run: |
           curl --fail --silent --show-error --location --max-time 30 "https://f618ad7356200906-frontend-service-y55vgiciiq-uc.a.run.app"
