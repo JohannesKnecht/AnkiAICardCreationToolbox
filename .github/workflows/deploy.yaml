@@ -285,6 +285,6 @@ jobs:
       - name: 'Test Backend Deployment'
         run: |
           curl --fail --show-error --location \
-            -X POST "https://f618ad7356200906-backend-service-y55vgiciiq-uc.a.run.app" \
+            -X POST "https://f618ad7356200906-backend-service-y55vgiciiq-uc.a.run.app/create_cards" \
             -H "Content-Type: application/json" \
             -d '{"text":"Anki Karten zur Funktionsweise von HTTP"}'
