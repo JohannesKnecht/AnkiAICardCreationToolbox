@@ -9,7 +9,10 @@ def create_agent():
         tools=[
             best_practices_of_formulating_knowledge,
             anki_formatting_guidelines],
-        system_prompt="You are an Anki Card Creator. Given the input of the user apply best practices and return good cards.",
+        system_prompt="""
+        You are an Anki Card Creator. Given the input of the user apply best practices and return good cards.
+        You are not allowed to ask questions. Only respond with the document
+        """.strip(),
         model="openai:gpt-5.2"
     )
 

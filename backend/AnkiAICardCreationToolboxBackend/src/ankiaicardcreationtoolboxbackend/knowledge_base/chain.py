@@ -14,7 +14,7 @@ def get_model():
 
 def get_messages(data, additional_info):
     system_msg = SystemMessage(
-        "Turn this document into a maximally concise document. The goal is to create a document that can be later on by an anki card creation as a reference:")
+        "Turn this document into a maximally concise document. The goal is to create a document that can be later on by an anki card creation as a reference. You are not allowed to ask questions. Only respond with the document:")
     human_msg = HumanMessage(data)
 
     messages = [system_msg] + (
