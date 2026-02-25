@@ -14,6 +14,7 @@ dependencies = [
     "tavily-python>=0.7.21", # required by langgraph
     "python-dotenv>=1.2.1",
     "trafilatura>=2.0.0",
+
 ]
 
 
@@ -21,13 +22,18 @@ dependencies = [
 dev = [
     "pytest>=9.0.2",
     "httpx>=0.28.1", # required for fastapi testing
+    "pytest-xdist>=3.8.0",
 ]
 
 
 
 [project.scripts]
 ankiaicardcreationtoolboxbackend = "ankiaicardcreationtoolboxbackend:main"
-create_knowledge_base = "ankiaicardcreationtoolboxbackend:invoke_create_knowledge_base"
+invoke_best_practices_of_formulating_knowledge = "ankiaicardcreationtoolboxbackend:invoke_best_practices_of_formulating_knowledge"
+invoke_anki_formatting_guidelines = "ankiaicardcreationtoolboxbackend:invoke_anki_formatting_guidelines"
+invoke_knowledge_base_creation = "ankiaicardcreationtoolboxbackend:invoke_knowledge_base_creation"
+
+
 
 [build-system]
 requires = ["uv_build>=0.9.26,<0.10.0"]
@@ -39,4 +45,6 @@ members = [
     "ankiaicardcreationtoolboxbackend",
 ]
 
+[tool.uv]
+default-groups = "all"
 
