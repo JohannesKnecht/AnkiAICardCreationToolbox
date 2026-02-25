@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/Main.vue'
+import MainComponent from './components/MainComponent.vue'
 </script>
 
 <template>
   <header>
     <div class="wrapper">
-      <HelloWorld msg="AnkiAICardCreationToolbox" />
+      <MainComponent msg="AnkiAICardCreationToolbox" />
       <nav>
         <RouterLink to="/">Overview</RouterLink>
         <RouterLink to="/CardCreation">CardCreation</RouterLink>

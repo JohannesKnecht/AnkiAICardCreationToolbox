@@ -17,29 +17,27 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 
-const inputText = ref('')
-const response = ref(null)
-const error = ref(null)
-const loading = ref(false)
+const inputText = ref<string>('')
+const response = ref<string | null>(null)
+const error = ref<string | null>(null)
+const loading = ref<boolean>(false)
 
-var url
-if (import.meta.env.DEV) {
-  url = 'http://127.0.0.1:8000'
-} else {
-  url = 'https://f618ad7356200906-backend-service-y55vgiciiq-uc.a.run.app'
-}
+let url: string = import.meta.env.DEV
+  ? 'http://127.0.0.1:8000'
+  : 'https://f618ad7356200906-backend-service-y55vgiciiq-uc.a.run.app'
+
 url += '/create_cards'
 
-async function sendRequest() {
+async function sendRequest(): Promise<void> {
   error.value = null
   response.value = null
   loading.value = true
 
   try {
-    const res = await fetch(url, {
+    const res: Response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -53,10 +51,16 @@ async function sendRequest() {
       throw new Error(`HTTP ${res.status}`)
     }
 
-    const data = await res.json()
+    const data: unknown = await res.json()
+
     response.value = JSON.stringify(data, null, 2)
-  } catch (err) {
-    error.value = err.message || 'Unknown error'
+
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      error.value = err.message
+    } else {
+      error.value = 'Unknown error'
+    }
   } finally {
     loading.value = false
   }
