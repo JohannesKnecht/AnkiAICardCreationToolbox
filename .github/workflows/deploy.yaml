@@ -65,6 +65,7 @@ jobs:
 
 
   EnsureTerraformbackendExists:
+
     concurrency:
       group: deployment-group
       cancel-in-progress: false
@@ -208,6 +209,8 @@ jobs:
             --region $LOCATION
 
   BuildPushDeployBE:
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     concurrency:
       group: deployment-group
       cancel-in-progress: false
@@ -253,7 +256,7 @@ jobs:
       - name: 'Create Secret in Secret Manager'
         run: |
           if ! gcloud secrets describe openai --project="${{ env.PROJECT }}" ; then
-            echo "${{ secrets.OPENAI_API_KEY }}" | gcloud secrets create openai --data-file=- --project="${{ env.PROJECT }}"
+            echo "$OPENAI_API_KEY" | gcloud secrets create openai --data-file=- --project="${{ env.PROJECT }}"
           fi
 
 
