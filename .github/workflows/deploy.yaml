@@ -215,7 +215,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           gcloud run deploy ${{ needs.terraform.outputs.frontend_name }} \
-            --image ${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }}:latest \
+            --image ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.FE_IMAGE_NAME }}:latest \
             --region $LOCATION
 
   BuildPushDeployBE:
@@ -281,7 +281,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           gcloud run deploy ${{ needs.terraform.outputs.backend_name }} \
-            --image ${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}:latest \
+            --image ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.BE_IMAGE_NAME }}:latest \
             --update-secrets=OPENAI_API_KEY=openai:latest \
             --region $LOCATION
 
