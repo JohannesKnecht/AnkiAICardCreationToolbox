@@ -12,6 +12,7 @@ env:
   PROJECT: ankiaicardcreationtoolbox
   LOCATION: us-central1
   REGISTRY: us-central1-docker.pkg.dev
+  REPOSITORY: ankiaicardcreationtoolbox/f618ad7356200906-repository
 
 
 jobs:
@@ -206,9 +207,9 @@ jobs:
           context: frontend/AnkiAICardCreationFrontend
           file: frontend/AnkiAICardCreationFrontend/Dockerfile
           push: true
-          tags: ${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }}:latest
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }}:latest
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }}:latest,mode=max
+          tags: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.FE_IMAGE_NAME }}:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.FE_IMAGE_NAME }}:latest
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.FE_IMAGE_NAME }}:latest,mode=max
 
       - name: 'Deploy fe to Cloud Run'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -264,9 +265,9 @@ jobs:
           context: backend/AnkiAICardCreationToolboxBackend/
           file: backend/AnkiAICardCreationToolboxBackend/Dockerfile
           push: true
-          tags: ${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}:latest
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}:latest
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}:latest,mode=max
+          tags: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.BE_IMAGE_NAME }}:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.BE_IMAGE_NAME }}:latest
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.BE_IMAGE_NAME }}:latest,mode=max
 
 
       - name: 'Create Secret in Secret Manager'
