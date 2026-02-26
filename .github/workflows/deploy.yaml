@@ -258,6 +258,7 @@ jobs:
           file: backend/AnkiAICardCreationToolboxBackend/Dockerfile
           push: true
           tags: ${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}:latest
+          cache-from: type=registry,ref=${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}:latest
           cache-to: type=registry,ref=${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}:latest,mode=max
 
 
