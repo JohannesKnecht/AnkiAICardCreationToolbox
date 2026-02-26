@@ -205,6 +205,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: frontend/AnkiAICardCreationFrontend
+          platforms: linux/amd64
           file: frontend/AnkiAICardCreationFrontend/Dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.FE_IMAGE_NAME }}:latest
@@ -263,6 +264,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: backend/AnkiAICardCreationToolboxBackend/
+          platforms: linux/amd64
           file: backend/AnkiAICardCreationToolboxBackend/Dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.BE_IMAGE_NAME }}:latest
