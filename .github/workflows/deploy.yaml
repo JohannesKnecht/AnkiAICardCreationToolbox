@@ -182,6 +182,7 @@ jobs:
           create_credentials_file: true
           export_environment_variables: true
           access_token_lifetime: 300s
+          token_format: access_token
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v3'
       - name: 'Use gcloud CLI'
@@ -239,6 +240,7 @@ jobs:
           create_credentials_file: true
           export_environment_variables: true
           access_token_lifetime: 300s
+          token_format: access_token
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v3'
       - name: 'Use gcloud CLI'
