@@ -308,7 +308,6 @@ jobs:
         run: |
           curl --fail --silent --show-error --location --max-time 30 "https://f618ad7356200906-frontend-service-y55vgiciiq-uc.a.run.app"
       - name: 'Test Backend Deployment'
-      - name: 'Test Backend Deployment'
         run: |
           curl --fail --show-error --location \
             -X POST "https://f618ad7356200906-backend-service-y55vgiciiq-uc.a.run.app/create_cards" \
