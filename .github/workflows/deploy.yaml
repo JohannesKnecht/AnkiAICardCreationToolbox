@@ -11,7 +11,7 @@ env:
   BE_IMAGE_NAME: ankiaicardcreationtoolboxbackend
   PROJECT: ankiaicardcreationtoolbox
   LOCATION: us-central1
-  REGISTRY: us-central1-docker.pkg.dev/ankiaicardcreationtoolbox/f618ad7356200906-repository
+  REGISTRY: us-central1-docker.pkg.dev
 
 
 jobs:
