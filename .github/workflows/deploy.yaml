@@ -204,7 +204,7 @@ jobs:
           push: true
           tags: ${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }}:latest
           cache-from: type=registry,ref=${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }}:latest
-          cache-to: type=inline
+          cache-to: type=registry,ref=${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }}:latest,mode=max
 
       - name: 'Deploy fe to Cloud Run'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -258,8 +258,7 @@ jobs:
           file: backend/AnkiAICardCreationToolboxBackend/Dockerfile
           push: true
           tags: ${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}:latest
-          cache-from: type=registry,ref=${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}:latest
-          cache-to: type=inline
+          cache-to: type=registry,ref=${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}:latest,mode=max
 
 
       - name: 'Create Secret in Secret Manager'
