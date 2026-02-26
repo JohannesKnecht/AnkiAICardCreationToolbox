@@ -192,14 +192,19 @@ jobs:
           username: _json_key
           password: ${{ secrets.GCP_CREDENTIAL }}
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: 'Build and push fe Docker image'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v6
         with:
           context: frontend/AnkiAICardCreationFrontend
           file: frontend/AnkiAICardCreationFrontend/Dockerfile
           push: true
           tags: ${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }}:latest
+          cache-from: type=registry,ref=${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }}:latest
+          cache-to: type=inline
 
       - name: 'Deploy fe to Cloud Run'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -242,15 +247,19 @@ jobs:
           username: _json_key
           password: ${{ secrets.GCP_CREDENTIAL }}
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: 'Build and push be Docker image'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v6
         with:
           context: backend/AnkiAICardCreationToolboxBackend/
           file: backend/AnkiAICardCreationToolboxBackend/Dockerfile
           push: true
           tags: ${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}:latest
+          cache-from: type=registry,ref=${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}:latest
+          cache-to: type=inline
 
 
       - name: 'Create Secret in Secret Manager'
