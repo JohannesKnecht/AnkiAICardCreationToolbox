@@ -199,13 +199,13 @@ jobs:
           context: frontend/AnkiAICardCreationFrontend
           file: frontend/AnkiAICardCreationFrontend/Dockerfile
           push: true
-          tags: gcr.io/${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }}
+          tags: ${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }}:latest
 
       - name: 'Deploy fe to Cloud Run'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           gcloud run deploy ${{ needs.terraform.outputs.frontend_name }} \
-            --image gcr.io/${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }} \
+            --image ${{ env.PROJECT }}/${{ env.FE_IMAGE_NAME }}:latest \
             --region $LOCATION
 
   BuildPushDeployBE:
@@ -250,7 +250,7 @@ jobs:
           context: backend/AnkiAICardCreationToolboxBackend/
           file: backend/AnkiAICardCreationToolboxBackend/Dockerfile
           push: true
-          tags: gcr.io/${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}
+          tags: ${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}:latest
 
 
       - name: 'Create Secret in Secret Manager'
@@ -264,7 +264,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           gcloud run deploy ${{ needs.terraform.outputs.backend_name }} \
-            --image gcr.io/${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }} \
+            --image ${{ env.PROJECT }}/${{ env.BE_IMAGE_NAME }}:latest \
             --update-secrets=OPENAI_API_KEY=openai:latest \
             --region $LOCATION
 
