@@ -5,20 +5,20 @@ updates:
   - package-ecosystem: "npm"
     directory: "frontend/AnkiAICardCreationFrontend"
     schedule:
-      interval: "weekly"
+      interval: "daily"
 
   - package-ecosystem: "uv"
     directory: "backend/AnkiAICardCreationToolboxBackend"
     schedule:
-      interval: "weekly"
+      interval: "daily"
 
   - package-ecosystem: "docker"
     directory: "backend/AnkiAICardCreationToolboxBackend"
     schedule:
-      interval: "weekly"
+      interval: "daily"
 
   - package-ecosystem: "docker"
     directory: "frontend/AnkiAICardCreationFrontend"
     schedule:
-      interval: "weekly"
+      interval: "daily"
 
