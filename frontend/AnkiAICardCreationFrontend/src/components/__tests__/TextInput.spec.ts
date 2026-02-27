@@ -2,8 +2,6 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import TextInput from '../TextInput.vue'
 
-const BACKEND_TIMEOUT = 120000
-
 describe('TextInput', () => {
   afterEach(() => {
     vi.restoreAllMocks()
@@ -37,22 +35,20 @@ describe('TextInput', () => {
     expect(wrapper.find('button').attributes('disabled')).toBeDefined()
   })
 
-  it(
-    'displays the response and Download button on successful fetch',
-    async () => {
-      const wrapper = mount(TextInput)
-      await wrapper.find('textarea').setValue('Water boils at 100°C.')
-      await wrapper.find('button').trigger('click')
+  it('displays the response and Download button on successful fetch', async () => {
+    vi.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({ cards: ['Q: What is 2+2?', 'A: 4'] }),
+    } as Response)
 
-      // Wait for the real HTTP response to arrive and Vue to re-render
-      await vi.waitFor(() => {
-        expect(wrapper.find('.response').exists()).toBe(true)
-      }, { timeout: BACKEND_TIMEOUT })
+    const wrapper = mount(TextInput)
+    await wrapper.find('textarea').setValue('some text')
+    await wrapper.find('button').trigger('click')
+    await flushPromises()
 
-      expect(wrapper.find('.response button').text()).toBe('Download')
-    },
-    BACKEND_TIMEOUT,
-  )
+    expect(wrapper.find('.response').exists()).toBe(true)
+    expect(wrapper.find('.response button').text()).toBe('Download')
+  })
 
   it('shows an error on non-ok response', async () => {
     vi.spyOn(global, 'fetch').mockResolvedValue({
@@ -81,44 +77,39 @@ describe('TextInput', () => {
     expect(wrapper.find('.error').text()).toContain('Network error')
   })
 
-  it(
-    'triggers a download when Download button is clicked',
-    async () => {
-      const createObjectURL = vi.fn().mockReturnValue('blob:fake-url')
-      const revokeObjectURL = vi.fn()
-      vi.stubGlobal('URL', { createObjectURL, revokeObjectURL })
+  it('triggers a download when Download button is clicked', async () => {
+    vi.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({ cards: ['Q: What is 2+2?', 'A: 4'] }),
+    } as Response)
 
-      const clickSpy = vi.fn()
-      const fakeAnchor = {
-        href: '',
-        download: '',
-        click: clickSpy,
-        setAttribute: vi.fn(),
-      } as unknown as HTMLAnchorElement
+    const createObjectURL = vi.fn().mockReturnValue('blob:fake-url')
+    const revokeObjectURL = vi.fn()
+    vi.stubGlobal('URL', { createObjectURL, revokeObjectURL })
 
-      const originalCreateElement = document.createElement.bind(document)
-      vi.spyOn(document, 'createElement').mockImplementation((tag: string) => {
-        if (tag === 'a') return fakeAnchor
-        return originalCreateElement(tag)
-      })
+    const clickSpy = vi.fn()
+    const fakeAnchor = {
+      href: '',
+      download: '',
+      click: clickSpy,
+      setAttribute: vi.fn(),
+    } as unknown as HTMLAnchorElement
 
-      const wrapper = mount(TextInput)
-      await wrapper.find('textarea').setValue('Water boils at 100°C.')
-      await wrapper.find('button').trigger('click')
+    const originalCreateElement = document.createElement.bind(document)
+    vi.spyOn(document, 'createElement').mockImplementation((tag: string) => {
+      if (tag === 'a') return fakeAnchor
+      return originalCreateElement(tag)
+    })
 
-      // Wait for the real HTTP response to arrive and Vue to re-render
-      await vi.waitFor(() => {
-        expect(wrapper.find('.response button').exists()).toBe(true)
-      }, { timeout: BACKEND_TIMEOUT })
+    const wrapper = mount(TextInput)
+    await wrapper.find('textarea').setValue('some text')
+    await wrapper.find('button').trigger('click')
+    await flushPromises()
 
-      await wrapper.find('.response button').trigger('click')
+    await wrapper.find('.response button').trigger('click')
 
-      expect(createObjectURL).toHaveBeenCalled()
-      expect(clickSpy).toHaveBeenCalled()
-      expect(revokeObjectURL).toHaveBeenCalledWith('blob:fake-url')
-    },
-    BACKEND_TIMEOUT,
-  )
+    expect(createObjectURL).toHaveBeenCalled()
+    expect(clickSpy).toHaveBeenCalled()
+    expect(revokeObjectURL).toHaveBeenCalledWith('blob:fake-url')
+  })
 })
-
-
