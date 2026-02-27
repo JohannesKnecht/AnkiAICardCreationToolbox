@@ -1,8 +1,10 @@
 # AnkiAICardCreationToolbox
 App to create Anki Cards using AI 
 
-# Url
+## Url
 https://f618ad7356200906-frontend-service-y55vgiciiq-uc.a.run.app
 
-# Usage Info
-Project uses openAI API key with 'Auto recharge off' 😉
+<img alt="screenshot" src="img.png">
+
+## Usage Info
+Feel free to use but note that openai credits are limited and the application may stop once credit has expired.
