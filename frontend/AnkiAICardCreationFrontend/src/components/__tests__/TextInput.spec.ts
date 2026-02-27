@@ -1,14 +1,13 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import TextInput from '../TextInput.vue'
 
-describe('TextInput', () => {
-  beforeEach(() => {
-    vi.stubGlobal('fetch', vi.fn())
-  })
+const BACKEND_TIMEOUT = 30000
 
+describe('TextInput', () => {
   afterEach(() => {
     vi.restoreAllMocks()
+    vi.unstubAllGlobals()
   })
 
   it('renders the heading, textarea, and Send button', () => {
@@ -30,7 +29,7 @@ describe('TextInput', () => {
   })
 
   it('shows "Sending..." and disables the button while loading', async () => {
-    vi.mocked(global.fetch).mockReturnValue(new Promise(() => {}))
+    vi.spyOn(global, 'fetch').mockReturnValue(new Promise(() => {}))
     const wrapper = mount(TextInput)
     await wrapper.find('textarea').setValue('some text')
     await wrapper.find('button').trigger('click')
@@ -38,25 +37,22 @@ describe('TextInput', () => {
     expect(wrapper.find('button').attributes('disabled')).toBeDefined()
   })
 
-  it('displays the response and Download button on successful fetch', async () => {
-    const fakeData = { cards: ['card1'] }
-    vi.mocked(global.fetch).mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve(fakeData),
-    } as Response)
+  it(
+    'displays the response and Download button on successful fetch',
+    async () => {
+      const wrapper = mount(TextInput)
+      await wrapper.find('textarea').setValue('Water boils at 100°C.')
+      await wrapper.find('button').trigger('click')
+      await flushPromises()
 
-    const wrapper = mount(TextInput)
-    await wrapper.find('textarea').setValue('some text')
-    await wrapper.find('button').trigger('click')
-    await flushPromises()
-
-    expect(wrapper.find('.response').exists()).toBe(true)
-    expect(wrapper.find('.response').text()).toContain(JSON.stringify(fakeData, null, 2))
-    expect(wrapper.find('.response button').text()).toBe('Download')
-  })
+      expect(wrapper.find('.response').exists()).toBe(true)
+      expect(wrapper.find('.response button').text()).toBe('Download')
+    },
+    BACKEND_TIMEOUT,
+  )
 
   it('shows an error on non-ok response', async () => {
-    vi.mocked(global.fetch).mockResolvedValue({
+    vi.spyOn(global, 'fetch').mockResolvedValue({
       ok: false,
       status: 500,
     } as Response)
@@ -71,7 +67,7 @@ describe('TextInput', () => {
   })
 
   it('shows an error on network failure', async () => {
-    vi.mocked(global.fetch).mockRejectedValue(new Error('Network error'))
+    vi.spyOn(global, 'fetch').mockRejectedValue(new Error('Network error'))
 
     const wrapper = mount(TextInput)
     await wrapper.find('textarea').setValue('some text')
@@ -82,40 +78,39 @@ describe('TextInput', () => {
     expect(wrapper.find('.error').text()).toContain('Network error')
   })
 
-  it('triggers a download when Download button is clicked', async () => {
-    const fakeData = { cards: ['card1'] }
-    vi.mocked(global.fetch).mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve(fakeData),
-    } as Response)
+  it(
+    'triggers a download when Download button is clicked',
+    async () => {
+      const createObjectURL = vi.fn().mockReturnValue('blob:fake-url')
+      const revokeObjectURL = vi.fn()
+      vi.stubGlobal('URL', { createObjectURL, revokeObjectURL })
 
-    const createObjectURL = vi.fn().mockReturnValue('blob:fake-url')
-    const revokeObjectURL = vi.fn()
-    vi.stubGlobal('URL', { createObjectURL, revokeObjectURL })
+      const clickSpy = vi.fn()
+      const fakeAnchor = {
+        href: '',
+        download: '',
+        click: clickSpy,
+        setAttribute: vi.fn(),
+      } as unknown as HTMLAnchorElement
 
-    const clickSpy = vi.fn()
-    const fakeAnchor = {
-      href: '',
-      download: '',
-      click: clickSpy,
-      setAttribute: vi.fn(),
-    } as unknown as HTMLAnchorElement
+      const originalCreateElement = document.createElement.bind(document)
+      vi.spyOn(document, 'createElement').mockImplementation((tag: string) => {
+        if (tag === 'a') return fakeAnchor
+        return originalCreateElement(tag)
+      })
 
-    const originalCreateElement = document.createElement.bind(document)
-    vi.spyOn(document, 'createElement').mockImplementation((tag: string) => {
-      if (tag === 'a') return fakeAnchor
-      return originalCreateElement(tag)
-    })
+      const wrapper = mount(TextInput)
+      await wrapper.find('textarea').setValue('Water boils at 100°C.')
+      await wrapper.find('button').trigger('click')
+      await flushPromises()
 
-    const wrapper = mount(TextInput)
-    await wrapper.find('textarea').setValue('some text')
-    await wrapper.find('button').trigger('click')
-    await flushPromises()
+      await wrapper.find('.response button').trigger('click')
 
-    await wrapper.find('.response button').trigger('click')
-
-    expect(createObjectURL).toHaveBeenCalled()
-    expect(clickSpy).toHaveBeenCalled()
-    expect(revokeObjectURL).toHaveBeenCalledWith('blob:fake-url')
-  })
+      expect(createObjectURL).toHaveBeenCalled()
+      expect(clickSpy).toHaveBeenCalled()
+      expect(revokeObjectURL).toHaveBeenCalledWith('blob:fake-url')
+    },
+    BACKEND_TIMEOUT,
+  )
 })
+
