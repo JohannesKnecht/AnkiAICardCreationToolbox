@@ -1,4 +1,4 @@
-name: "CI/CD - Test, Build, and Deploy to GCP"
+name: "CICD"
 
 on:
   push:
