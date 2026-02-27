@@ -5,8 +5,7 @@ from langchain.messages import HumanMessage, AIMessage, SystemMessage
 import os
 import trafilatura
 
-DEFAULT_MODEL_NAME = "gpt-5-nano"
-MODEL_NAME = os.environ.get("OPENAI_MODEL_OVERRIDE", DEFAULT_MODEL_NAME)
+MODEL_NAME = "gpt-5-nano"
 
 
 def get_model():
