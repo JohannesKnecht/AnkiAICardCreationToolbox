@@ -12,7 +12,8 @@
 
     <div v-if="response" class="response">
       <strong>Response:</strong>
-      <pre>{{ response }}</pre>
+      <button @click="downloadResponse()">Download</button>
+      <p style="word-break: break-all">{{ response }}</p>
     </div>
   </div>
 </template>
@@ -54,7 +55,6 @@ async function sendRequest(): Promise<void> {
     const data: unknown = await res.json()
 
     response.value = JSON.stringify(data, null, 2)
-
   } catch (err: unknown) {
     if (err instanceof Error) {
       error.value = err.message
@@ -64,6 +64,22 @@ async function sendRequest(): Promise<void> {
   } finally {
     loading.value = false
   }
+}
+
+function downloadResponse(): void {
+  if (!response.value) {
+    console.warn('Nothing to download')
+    return
+  }
+
+  // Use plain text instead of JSON to avoid "undefined" issues
+  const blob = new Blob([response.value], { type: 'text/plain' })
+  const url: string = URL.createObjectURL(blob)
+  const a: HTMLAnchorElement = document.createElement('a')
+  a.href = url
+  a.download = 'response.txt'
+  a.click()
+  URL.revokeObjectURL(url) // clean up
 }
 </script>
 

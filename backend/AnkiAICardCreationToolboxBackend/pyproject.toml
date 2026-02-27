@@ -14,7 +14,6 @@ dependencies = [
     "tavily-python>=0.7.21", # required by langgraph
     "python-dotenv>=1.2.1",
     "trafilatura>=2.0.0",
-
 ]
 
 
