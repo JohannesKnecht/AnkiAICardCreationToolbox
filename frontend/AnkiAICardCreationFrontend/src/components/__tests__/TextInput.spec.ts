@@ -43,9 +43,12 @@ describe('TextInput', () => {
       const wrapper = mount(TextInput)
       await wrapper.find('textarea').setValue('Water boils at 100°C.')
       await wrapper.find('button').trigger('click')
-      await flushPromises()
 
-      expect(wrapper.find('.response').exists()).toBe(true)
+      // Wait for the real HTTP response to arrive and Vue to re-render
+      await vi.waitFor(() => {
+        expect(wrapper.find('.response').exists()).toBe(true)
+      }, { timeout: BACKEND_TIMEOUT })
+
       expect(wrapper.find('.response button').text()).toBe('Download')
     },
     BACKEND_TIMEOUT,
@@ -102,7 +105,11 @@ describe('TextInput', () => {
       const wrapper = mount(TextInput)
       await wrapper.find('textarea').setValue('Water boils at 100°C.')
       await wrapper.find('button').trigger('click')
-      await flushPromises()
+
+      // Wait for the real HTTP response to arrive and Vue to re-render
+      await vi.waitFor(() => {
+        expect(wrapper.find('.response button').exists()).toBe(true)
+      }, { timeout: BACKEND_TIMEOUT })
 
       await wrapper.find('.response button').trigger('click')
 
@@ -113,4 +120,5 @@ describe('TextInput', () => {
     BACKEND_TIMEOUT,
   )
 })
+
 
