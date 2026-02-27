@@ -18,7 +18,7 @@ updates:
       interval: "weekly"
 
   - package-ecosystem: "docker"
-    directory: "backend/AnkiAICardCreationFrontend"
+    directory: "frontend/AnkiAICardCreationFrontend"
     schedule:
       interval: "weekly"
 
