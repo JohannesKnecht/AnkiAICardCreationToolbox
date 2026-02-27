@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import HelloWorld from '../HelloWorld.vue'
+import Overview from '../OverviewComponent.vue'
 
-describe('HelloWorld', () => {
+describe('Overview', () => {
   it('renders properly', () => {
-    const wrapper = mount(HelloWorld, { props: { msg: 'Hello Vitest' } })
-    expect(wrapper.text()).toContain('Hello Vitest')
+    const wrapper = mount(Overview, { props: { msg: 'Hello Vitest' } })
+    expect(wrapper.text()).toContain('Select CardCreation or Image2LaTeX to get started.')
   })
 })

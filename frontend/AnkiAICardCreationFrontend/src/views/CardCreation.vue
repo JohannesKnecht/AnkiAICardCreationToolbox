@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import TextInput from '../components/TextInput.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <TextInput />
   </main>
 </template>
