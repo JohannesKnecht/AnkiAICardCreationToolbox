@@ -2,7 +2,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import TextInput from '../TextInput.vue'
 
-const BACKEND_TIMEOUT = 30000
+const BACKEND_TIMEOUT = 120000
 
 describe('TextInput', () => {
   afterEach(() => {
