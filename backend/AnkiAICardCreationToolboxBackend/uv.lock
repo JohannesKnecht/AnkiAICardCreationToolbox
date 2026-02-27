@@ -84,7 +84,6 @@ dependencies = [
     { name = "langchain-openai" },
     { name = "pip" },
     { name = "python-dotenv" },
-    { name = "tavily-python" },
     { name = "trafilatura" },
 ]
 
@@ -102,7 +101,6 @@ requires-dist = [
     { name = "langchain-openai", specifier = ">=1.1.10" },
     { name = "pip", specifier = ">=26.0.1" },
     { name = "python-dotenv", specifier = ">=1.2.1" },
-    { name = "tavily-python", specifier = ">=0.7.21" },
     { name = "trafilatura", specifier = ">=2.0.0" },
 ]
 
@@ -361,7 +359,7 @@ wheels = [
 
 [[package]]
 name = "deepagents"
-version = "0.4.3"
+version = "0.4.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "langchain" },
@@ -370,9 +368,9 @@ dependencies = [
     { name = "langchain-google-genai" },
     { name = "wcmatch" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b4/30/5bba09d1c196a9e6e2e3a3406cd131bdf01e84ec67c4b6233f68a903978f/deepagents-0.4.3.tar.gz", hash = "sha256:88033c616c5ea481f2620dbb2d05533bc8fdcd48f376d713f9dba49a8157b6f8", size = 83210, upload-time = "2026-02-20T21:40:45.467Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/75/05/cb13994e47b224bc32e4614096faea61f4bf9545508f501fd516fd239bdc/deepagents-0.4.4.tar.gz", hash = "sha256:3050a056a20fccf04372ee9bc2bad04e0a7da2ebf9cc0533170237997c4fbc6c", size = 83537, upload-time = "2026-02-26T15:23:51.1Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/58/f8/c076a841b68cc13d89c395cc97965b37751ed008691a304119efa0f5717e/deepagents-0.4.3-py3-none-any.whl", hash = "sha256:298d19c5c0b4c6fc6a74b68049a7bfea0ba481aece7201ab21e7172b71ee61b9", size = 94882, upload-time = "2026-02-20T21:40:44.368Z" },
+    { url = "https://files.pythonhosted.org/packages/8c/1d/073b2b2c14894dcee2cd8845685430dc090369ac650616f6efb9ed12a250/deepagents-0.4.4-py3-none-any.whl", hash = "sha256:25d02dda7f8d9ed27e427933ea2d5b423e24f960af827809106f8ba9be6fb4bf", size = 95158, upload-time = "2026-02-26T15:23:49.953Z" },
 ]
 
 [[package]]
@@ -1635,20 +1633,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c4/68/79977123bb7be889ad680d79a40f339082c1978b5cfcf62c2d8d196873ac/starlette-0.52.1.tar.gz", hash = "sha256:834edd1b0a23167694292e94f597773bc3f89f362be6effee198165a35d62933", size = 2653702, upload-time = "2026-01-18T13:34:11.062Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/81/0d/13d1d239a25cbfb19e740db83143e95c772a1fe10202dda4b76792b114dd/starlette-0.52.1-py3-none-any.whl", hash = "sha256:0029d43eb3d273bc4f83a08720b4912ea4b071087a3b48db01b7c839f7954d74", size = 74272, upload-time = "2026-01-18T13:34:09.188Z" },
-]
-
-[[package]]
-name = "tavily-python"
-version = "0.7.21"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "httpx" },
-    { name = "requests" },
-    { name = "tiktoken" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/ff/1f/9d5c4ca7034754d1fc232af64638b905162bdf3012e9629030e3d755856f/tavily_python-0.7.21.tar.gz", hash = "sha256:897bedf9b1c2fad8605be642e417d6c7ec1b79bf6199563477cf69c4313f824a", size = 21813, upload-time = "2026-01-30T16:57:33.186Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/3a/39/85e5be4e9a912022f86f38288d1f4dd2d100b60ec75ebf3da37ca0122375/tavily_python-0.7.21-py3-none-any.whl", hash = "sha256:acfb5b62f2d1053d56321b4fb1ddfd2e98bb975cc4446b86b3fe2d3dd0850288", size = 17957, upload-time = "2026-01-30T16:57:32.278Z" },
 ]
 
 [[package]]
