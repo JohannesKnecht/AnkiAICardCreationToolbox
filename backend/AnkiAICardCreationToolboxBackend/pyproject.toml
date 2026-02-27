@@ -6,9 +6,44 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi[standard]>=0.131.0",
+    #"langchain>=1.2.10",
+    "langchain-openai>=1.1.10",
+    #"langgraph>=1.0.9",
+    "pip>=26.0.1",
+    "deepagents>=0.4.3",
+    "tavily-python>=0.7.21", # required by langgraph
+    "python-dotenv>=1.2.1",
+    "trafilatura>=2.0.0",
 ]
+
 
 [dependency-groups]
 dev = [
     "pytest>=9.0.2",
+    "httpx>=0.28.1", # required for fastapi testing
+    "pytest-xdist>=3.8.0",
 ]
+
+
+
+[project.scripts]
+ankiaicardcreationtoolboxbackend = "ankiaicardcreationtoolboxbackend:main"
+invoke_best_practices_of_formulating_knowledge = "ankiaicardcreationtoolboxbackend:invoke_best_practices_of_formulating_knowledge"
+invoke_anki_formatting_guidelines = "ankiaicardcreationtoolboxbackend:invoke_anki_formatting_guidelines"
+invoke_knowledge_base_creation = "ankiaicardcreationtoolboxbackend:invoke_knowledge_base_creation"
+
+
+
+[build-system]
+requires = ["uv_build>=0.9.26,<0.10.0"]
+build-backend = "uv_build"
+
+
+[tool.uv.workspace]
+members = [
+    "ankiaicardcreationtoolboxbackend",
+]
+
+[tool.uv]
+default-groups = "all"
+
