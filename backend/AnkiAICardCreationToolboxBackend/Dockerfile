@@ -20,4 +20,4 @@ WORKDIR /app
 RUN uv sync --frozen --no-cache
 
 # Run the application.
-CMD ["/app/.venv/bin/fastapi", "run", "/app/ankiaicardcreationtoolboxbackend/main.py", "--port", "8080", "--host", "0.0.0.0"]
+CMD ["/app/.venv/bin/fastapi", "run", "/app/src/ankiaicardcreationtoolboxbackend/main.py", "--port", "8080", "--host", "0.0.0.0"]

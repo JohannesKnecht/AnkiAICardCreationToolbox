@@ -13,7 +13,7 @@ resource "google_cloud_run_v2_service" "backend_service" {
 
   template {
     containers {
-      image = "gcr.io/ankiaicardcreationtoolbox/ankiaicardcreationtoolboxfrontend"
+      image = "gcr.io/ankiaicardcreationtoolbox/ankiaicardcreationtoolboxbackend"
       ports {
         container_port = 8080
       }
@@ -41,7 +41,7 @@ resource "google_cloud_run_v2_service" "frontend_service" {
 
   template {
     containers {
-      image = "gcr.io/ankiaicardcreationtoolbox/ankiaicardcreationtoolboxbackend"
+      image = "gcr.io/ankiaicardcreationtoolbox/ankiaicardcreationtoolboxfrontend"
       resources {
         limits = {
           cpu    = "2"
