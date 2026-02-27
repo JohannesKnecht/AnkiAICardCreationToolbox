@@ -34,7 +34,7 @@
     "cypress": "^15.10.0",
     "eslint": "^10.0.1",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-cypress": "^5.3.0",
+    "eslint-plugin-cypress": "^6.1.0",
     "eslint-plugin-oxlint": "~1.46.0",
     "eslint-plugin-vue": "~10.8.0",
     "jiti": "^2.6.1",
