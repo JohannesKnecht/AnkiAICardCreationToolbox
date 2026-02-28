@@ -5,8 +5,8 @@ from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config impor
 
 
 def get_data(file: str) -> dict[str, str]:
-    with open(f"{PROJECT_KNOWLEDGE_BASE_DIR}/{file}.json", 'r') as file:
-        return json.load(file)
+    with open(f"{PROJECT_KNOWLEDGE_BASE_DIR}/{file}.json", 'r') as f:
+        return json.load(f)
 
 
 def best_practices_of_formulating_knowledge() -> str:

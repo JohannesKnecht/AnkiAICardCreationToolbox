@@ -1,11 +1,7 @@
-import json
-
 from langchain.chat_models import init_chat_model
-from langchain.messages import HumanMessage, AIMessage, SystemMessage
+from langchain.messages import HumanMessage, SystemMessage
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import BaseMessage
-import os
-import trafilatura
 
 
 MODEL_NAME = "gpt-5-nano"
