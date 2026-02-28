@@ -1,12 +1,10 @@
 import os
 
-from pydantic import BaseModel
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 from ankiaicardcreationtoolboxbackend.agent import get_agent_response
-from ankiaicardcreationtoolboxbackend.tools import best_practices_of_formulating_knowledge
 
 app = FastAPI()
 

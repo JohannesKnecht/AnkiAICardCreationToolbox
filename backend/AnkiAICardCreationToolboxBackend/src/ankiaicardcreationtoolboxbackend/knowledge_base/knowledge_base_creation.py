@@ -1,13 +1,12 @@
 import json
 
-from langchain.chat_models import init_chat_model
-from langchain.messages import HumanMessage, AIMessage, SystemMessage
-import os
 import trafilatura
 
-from ankiaicardcreationtoolboxbackend.knowledge_base.chain import get_model, get_messages
-from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config import knowledge_base_config, \
-    PROJECT_KNOWLEDGE_BASE_DIR
+from ankiaicardcreationtoolboxbackend.knowledge_base.chain import get_messages, get_model
+from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config import (
+    PROJECT_KNOWLEDGE_BASE_DIR,
+    knowledge_base_config,
+)
 
 
 def create_knowledge_base(url, json_name, additional_info, knowledge_base_dir=None):
@@ -17,12 +16,12 @@ def create_knowledge_base(url, json_name, additional_info, knowledge_base_dir=No
     downloaded = trafilatura.fetch_url(url)
     data = trafilatura.extract(downloaded)
 
-    with open(f'{knowledge_base_dir}/{json_name}_raw.json', 'w') as outfile:
+    with open(f"{knowledge_base_dir}/{json_name}_raw.json", "w") as outfile:
         json.dump({"data": data}, outfile)
 
     response = get_model().invoke(get_messages(data, additional_info)).content
 
-    with open(f'{knowledge_base_dir}/{json_name}.json', 'w') as outfile:
+    with open(f"{knowledge_base_dir}/{json_name}.json", "w") as outfile:
         json.dump({"data": response}, outfile)
 
 
@@ -31,13 +30,11 @@ def create_knowledge_base_with_config(config, name, knowledge_base_dir):
         url=config["url"],
         json_name=name,
         additional_info=config["additional_info"],
-        knowledge_base_dir=knowledge_base_dir
+        knowledge_base_dir=knowledge_base_dir,
     )
 
 
 def create_knowledge_base_with_config_name(name, knowledge_base_dir):
     create_knowledge_base_with_config(
-        config=knowledge_base_config[name],
-        name=name,
-        knowledge_base_dir=knowledge_base_dir
+        config=knowledge_base_config[name], name=name, knowledge_base_dir=knowledge_base_dir
     )
