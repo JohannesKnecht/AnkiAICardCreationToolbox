@@ -43,6 +43,12 @@ jobs:
       - name: Install Dependencies
         run: uv sync --frozen --all-extras
 
+      - name: Ruff Lint
+        run: uv run ruff check .
+
+      - name: Ruff Format Check
+        run: uv run ruff format --check .
+
       - name: Run Tests
         run: uv run pytest
 
