@@ -39,7 +39,14 @@ def resource_check() -> None:
 
 @app.post("/create_cards")
 async def create_cards(card_request_data: CardRequestData) -> str:
-    """Create Anki cards from the provided text."""
+    """Create Anki cards from the provided text.
+
+    Args:
+        card_request_data: The request body containing the text to create cards from.
+
+    Returns:
+        The generated Anki cards as a string.
+    """
     resource_check()
 
     text = card_request_data.text

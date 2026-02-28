@@ -10,16 +10,31 @@ from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config impor
 
 
 def get_data(file: str) -> dict[str, str]:
-    """Load and return JSON data from a knowledge base file."""
+    """Load and return JSON data from a knowledge base file.
+
+    Args:
+        file: The knowledge base file name (without extension).
+
+    Returns:
+        The parsed JSON content as a dictionary.
+    """
     with open(f"{PROJECT_KNOWLEDGE_BASE_DIR}/{file}.json") as f:
         return json.load(f)
 
 
 def best_practices_of_formulating_knowledge() -> dict[str, str]:
-    """Get best practices of formulating knowledge."""
+    """Get best practices of formulating knowledge.
+
+    Returns:
+        The best practices knowledge base data as a dictionary.
+    """
     return get_data(BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE)
 
 
 def anki_formatting_guidelines() -> dict[str, str]:
-    """Get Anki formatting guidelines."""
+    """Get Anki formatting guidelines.
+
+    Returns:
+        The Anki formatting guidelines data as a dictionary.
+    """
     return get_data(ANKI_FORMATTING_GUIDELINES)

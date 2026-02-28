@@ -14,7 +14,15 @@ from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config impor
 def create_knowledge_base(
     url: str, json_name: str, additional_info: str, knowledge_base_dir: str | None = None
 ) -> None:
-    """Fetch a URL, summarise its content, and save both raw and processed JSON."""
+    """Fetch a URL, summarise its content, and save both raw and processed JSON.
+
+    Args:
+        url: The web URL to fetch content from.
+        json_name: The base file name for the output JSON files.
+        additional_info: Extra instructions for the summarisation model.
+        knowledge_base_dir: Directory to store the output files.
+            Defaults to the project data directory.
+    """
     if knowledge_base_dir is None:
         knowledge_base_dir = PROJECT_KNOWLEDGE_BASE_DIR
 
@@ -35,7 +43,13 @@ def create_knowledge_base(
 
 
 def create_knowledge_base_with_config(config: dict[str, str], name: str, knowledge_base_dir: str | None) -> None:
-    """Create a knowledge base using the given config dictionary."""
+    """Create a knowledge base using the given config dictionary.
+
+    Args:
+        config: A dictionary containing ``url`` and ``additional_info`` keys.
+        name: The name used for the output JSON files.
+        knowledge_base_dir: Directory to store the output files.
+    """
     create_knowledge_base(
         url=config["url"],
         json_name=name,
@@ -45,7 +59,12 @@ def create_knowledge_base_with_config(config: dict[str, str], name: str, knowled
 
 
 def create_knowledge_base_with_config_name(name: str, knowledge_base_dir: str | None) -> None:
-    """Create a knowledge base by looking up the config by name."""
+    """Create a knowledge base by looking up the config by name.
+
+    Args:
+        name: The configuration name to look up in ``knowledge_base_config``.
+        knowledge_base_dir: Directory to store the output files.
+    """
     create_knowledge_base_with_config(
         config=knowledge_base_config[name], name=name, knowledge_base_dir=knowledge_base_dir
     )

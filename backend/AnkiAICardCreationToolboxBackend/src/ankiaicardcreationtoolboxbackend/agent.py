@@ -18,7 +18,11 @@ AGENT_MODEL = f"openai:{_model_override}" if _model_override else DEFAULT_AGENT_
 
 
 def create_agent() -> Runnable:
-    """Create the Anki card creation agent with knowledge base tools."""
+    """Create the Anki card creation agent with knowledge base tools.
+
+    Returns:
+        A configured LangChain runnable agent.
+    """
     return create_deep_agent(
         tools=[best_practices_of_formulating_knowledge, anki_formatting_guidelines],
         system_prompt="""
@@ -30,6 +34,13 @@ def create_agent() -> Runnable:
 
 
 def get_agent_response(text: str) -> str:
-    """Invoke the agent and return its text response."""
+    """Invoke the agent and return its text response.
+
+    Args:
+        text: The user input text to generate cards from.
+
+    Returns:
+        The agent's generated card content as a string.
+    """
     result = create_agent().invoke({"messages": [{"role": "user", "content": text}]})
     return result["messages"][-1].content[0]["text"]

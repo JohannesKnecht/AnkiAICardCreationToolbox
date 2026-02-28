@@ -15,12 +15,24 @@ MODEL_NAME = "gpt-5-nano"
 
 
 def get_model() -> BaseChatModel:
-    """Return the chat model used for knowledge base summarisation."""
+    """Return the chat model used for knowledge base summarisation.
+
+    Returns:
+        An initialised chat model instance.
+    """
     return init_chat_model(MODEL_NAME)
 
 
 def get_messages(data: str, additional_info: str) -> list[BaseMessage]:
-    """Build the message list for the knowledge base summarisation chain."""
+    """Build the message list for the knowledge base summarisation chain.
+
+    Args:
+        data: The extracted text content from the web source.
+        additional_info: Extra instructions to include in the system prompt.
+
+    Returns:
+        A list of messages to send to the chat model.
+    """
     system_msg = SystemMessage(
         """
         Turn this document into a maximally concise document.
