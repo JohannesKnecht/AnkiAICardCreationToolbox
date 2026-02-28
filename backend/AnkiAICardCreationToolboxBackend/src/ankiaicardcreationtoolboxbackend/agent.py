@@ -1,6 +1,6 @@
 import os
 
-from fastapi import FastAPI
+from langchain_core.runnables import Runnable
 from deepagents import create_deep_agent
 
 from ankiaicardcreationtoolboxbackend.tools import best_practices_of_formulating_knowledge, anki_formatting_guidelines
@@ -10,7 +10,7 @@ _model_override = os.environ.get("OPENAI_MODEL_OVERRIDE")
 AGENT_MODEL = f"openai:{_model_override}" if _model_override else DEFAULT_AGENT_MODEL
 
 
-def create_agent():
+def create_agent() -> Runnable:
     return create_deep_agent(
         tools=[
             best_practices_of_formulating_knowledge,
@@ -23,7 +23,7 @@ def create_agent():
     )
 
 
-def get_agent_response(text):
+def get_agent_response(text: str) -> str:
     result = create_agent().invoke(
         {"messages": [{"role": "user", "content": text}]}
     )
