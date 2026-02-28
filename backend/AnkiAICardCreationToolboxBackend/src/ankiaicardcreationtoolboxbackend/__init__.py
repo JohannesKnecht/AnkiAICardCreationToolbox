@@ -1,5 +1,4 @@
 import asyncio
-import os
 
 from dotenv import load_dotenv
 
@@ -20,13 +19,11 @@ def main() -> None:
 
 
 def invoke_best_practices_of_formulating_knowledge(knowledge_base_dir: str | None = None) -> None:
-    create_knowledge_base_with_config_name(BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE,
-                                           knowledge_base_dir)
+    create_knowledge_base_with_config_name(BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE, knowledge_base_dir)
 
 
 def invoke_anki_formatting_guidelines(knowledge_base_dir: str | None = None) -> None:
-    create_knowledge_base_with_config_name(ANKI_FORMATTING_GUIDELINES,
-                                           knowledge_base_dir)
+    create_knowledge_base_with_config_name(ANKI_FORMATTING_GUIDELINES, knowledge_base_dir)
 
 
 def invoke_knowledge_base_creation(knowledge_base_dir: str | None = None) -> None:

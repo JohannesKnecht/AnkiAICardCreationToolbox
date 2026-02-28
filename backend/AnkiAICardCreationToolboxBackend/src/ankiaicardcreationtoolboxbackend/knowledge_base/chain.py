@@ -1,8 +1,13 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from langchain.chat_models import init_chat_model
 from langchain.messages import HumanMessage, SystemMessage
-from langchain_core.language_models import BaseChatModel
-from langchain_core.messages import BaseMessage
 
+if TYPE_CHECKING:
+    from langchain_core.language_models import BaseChatModel
+    from langchain_core.messages import BaseMessage
 
 MODEL_NAME = "gpt-5-nano"
 

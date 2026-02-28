@@ -1,7 +1,12 @@
-import os
+from __future__ import annotations
 
-from langchain_core.runnables import Runnable
+import os
+from typing import TYPE_CHECKING
+
 from deepagents import create_deep_agent
+
+if TYPE_CHECKING:
+    from langchain_core.runnables import Runnable
 
 from ankiaicardcreationtoolboxbackend.tools import anki_formatting_guidelines, best_practices_of_formulating_knowledge
 
@@ -22,7 +27,5 @@ def create_agent() -> Runnable:
 
 
 def get_agent_response(text: str) -> str:
-    result = create_agent().invoke(
-        {"messages": [{"role": "user", "content": text}]}
-    )
+    result = create_agent().invoke({"messages": [{"role": "user", "content": text}]})
     return result["messages"][-1].content[0]["text"]

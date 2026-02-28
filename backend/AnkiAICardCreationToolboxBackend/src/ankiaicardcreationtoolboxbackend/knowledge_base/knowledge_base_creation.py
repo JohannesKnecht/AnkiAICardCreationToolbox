@@ -9,7 +9,9 @@ from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config impor
 )
 
 
-def create_knowledge_base(url: str, json_name: str, additional_info: str, knowledge_base_dir: str | None = None) -> None:
+def create_knowledge_base(
+    url: str, json_name: str, additional_info: str, knowledge_base_dir: str | None = None
+) -> None:
     if knowledge_base_dir is None:
         knowledge_base_dir = PROJECT_KNOWLEDGE_BASE_DIR
 
