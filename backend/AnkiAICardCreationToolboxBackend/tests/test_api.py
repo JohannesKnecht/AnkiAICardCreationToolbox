@@ -1,12 +1,12 @@
 from fastapi.testclient import TestClient
 
-from ankiaicardcreationtoolboxbackend.main import CardRequestData, app
+from ankiaicardcreationtoolboxbackend.main import app
 
 client = TestClient(app)
 
 
 def test_read_main():
-    response = client.post("/create_cards", data=CardRequestData(text="Anki Karten zur Funktionsweise von HTTP").json())  # type: ignore[invalid-argument-type, deprecated]
+    response = client.post("/create_cards", data={"text": "Anki Karten zur Funktionsweise von HTTP"})
 
     assert response.status_code == 200
     response.json()  # test json deocing

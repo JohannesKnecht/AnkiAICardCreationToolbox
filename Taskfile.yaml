@@ -37,8 +37,8 @@ tasks:
   lint-backend:
     dir: backend/AnkiAICardCreationToolboxBackend
     cmds:
-      - uv run ruff check --fix .
       - uv run ruff format .
+      - uv run ruff check --fix .
       - uv run ty check
 
   build-image:

@@ -65,6 +65,7 @@ select = [
     "TCH",  # flake8-type-checking
 ]
 ignore = []
+fixable = ["ALL"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["ankiaicardcreationtoolboxbackend"]
