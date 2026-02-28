@@ -12,11 +12,11 @@ def get_data(file: str) -> dict[str, str]:
         return json.load(f)
 
 
-def best_practices_of_formulating_knowledge() -> str:
+def best_practices_of_formulating_knowledge() -> dict[str, str]:
     """Get best practices of formulating knowledge"""
     return get_data(BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE)
 
 
-def anki_formatting_guidelines() -> str:
+def anki_formatting_guidelines() -> dict[str, str]:
     """Get best practices of formulating knowledge"""
     return get_data(ANKI_FORMATTING_GUIDELINES)

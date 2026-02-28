@@ -21,6 +21,10 @@ def create_knowledge_base(
     with open(f"{knowledge_base_dir}/{json_name}_raw.json", "w") as outfile:
         json.dump({"data": data}, outfile)
 
+    if data is None:
+        msg = f"Failed to extract content from {url}"
+        raise ValueError(msg)
+
     response = get_model().invoke(get_messages(data, additional_info)).content
 
     with open(f"{knowledge_base_dir}/{json_name}.json", "w") as outfile:
