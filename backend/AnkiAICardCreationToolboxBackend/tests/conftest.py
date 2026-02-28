@@ -1,3 +1,5 @@
+"""Shared test configuration and fixtures."""
+
 import os
 
 from dotenv import load_dotenv

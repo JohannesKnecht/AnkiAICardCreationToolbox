@@ -1,3 +1,5 @@
+"""FastAPI application for Anki AI card creation."""
+
 import os
 
 from fastapi import FastAPI, HTTPException
@@ -24,16 +26,27 @@ app.add_middleware(
 
 
 class CardRequestData(BaseModel):
+    """Request body for the card creation endpoint."""
+
     text: str
 
 
 def resource_check() -> None:
+    """Verify that required environment variables are set."""
     if not os.environ.get("OPENAI_API_KEY"):
         raise HTTPException(status_code=500, detail="OPENAI_API_KEY not set")
 
 
 @app.post("/create_cards")
 async def create_cards(card_request_data: CardRequestData) -> str:
+    """Create Anki cards from the provided text.
+
+    Args:
+        card_request_data: The request body containing the text to create cards from.
+
+    Returns:
+        The generated Anki cards as a string.
+    """
     resource_check()
 
     text = card_request_data.text

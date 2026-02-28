@@ -1,3 +1,5 @@
+"""Configuration for knowledge base sources and paths."""
+
 import os
 
 PROJECT_KNOWLEDGE_DIR = "src/ankiaicardcreationtoolboxbackend/data"
