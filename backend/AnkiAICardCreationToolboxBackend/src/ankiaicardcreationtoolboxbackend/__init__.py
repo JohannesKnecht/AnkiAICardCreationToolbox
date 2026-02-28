@@ -1,3 +1,6 @@
+import asyncio
+import os
+
 from dotenv import load_dotenv
 
 from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config import (
@@ -13,17 +16,19 @@ load_dotenv()
 
 
 def main() -> None:
-    create_cards(CardRequestData(text="HTTP Basics"))
+    asyncio.run(create_cards(CardRequestData(text="HTTP Basics")))
 
 
-def invoke_best_practices_of_formulating_knowledge(knowledge_base_dir=None) -> None:
-    create_knowledge_base_with_config_name(BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE, knowledge_base_dir)
+def invoke_best_practices_of_formulating_knowledge(knowledge_base_dir: str | None = None) -> None:
+    create_knowledge_base_with_config_name(BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE,
+                                           knowledge_base_dir)
 
 
-def invoke_anki_formatting_guidelines(knowledge_base_dir=None) -> None:
-    create_knowledge_base_with_config_name(ANKI_FORMATTING_GUIDELINES, knowledge_base_dir)
+def invoke_anki_formatting_guidelines(knowledge_base_dir: str | None = None) -> None:
+    create_knowledge_base_with_config_name(ANKI_FORMATTING_GUIDELINES,
+                                           knowledge_base_dir)
 
 
-def invoke_knowledge_base_creation(knowledge_base_dir=None) -> None:
+def invoke_knowledge_base_creation(knowledge_base_dir: str | None = None) -> None:
     invoke_best_practices_of_formulating_knowledge(knowledge_base_dir)
     invoke_anki_formatting_guidelines(knowledge_base_dir)

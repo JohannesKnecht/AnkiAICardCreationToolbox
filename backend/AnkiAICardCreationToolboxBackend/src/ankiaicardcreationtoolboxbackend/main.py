@@ -1,6 +1,8 @@
 import os
 
-from fastapi import FastAPI
+from pydantic import BaseModel
+
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -27,17 +29,17 @@ class CardRequestData(BaseModel):
     text: str
 
 
-def resource_check():
+def resource_check() -> None:
     if not os.environ.get("OPENAI_API_KEY"):
-        raise ValueError("OPENAI_API_KEY not set")
+        raise HTTPException(status_code=500, detail="OPENAI_API_KEY not set")
 
 
 @app.post("/create_cards")
-async def create_cards(card_request_data: CardRequestData):
+async def create_cards(card_request_data: CardRequestData) -> str:
     resource_check()
 
     text = card_request_data.text
     if len(text) > 1000:
-        raise ValueError("text too long")
+        raise HTTPException(status_code=400, detail="text too long")
 
     return get_agent_response(text)

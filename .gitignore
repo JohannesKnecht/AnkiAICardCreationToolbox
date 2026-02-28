@@ -1,3 +1,6 @@
 cicd.json
 .env
 .idea
+__pycache__/
+*.pyc
+*.pyo
