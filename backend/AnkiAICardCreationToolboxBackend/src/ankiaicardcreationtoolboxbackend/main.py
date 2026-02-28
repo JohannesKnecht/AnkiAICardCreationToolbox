@@ -29,13 +29,13 @@ class CardRequestData(BaseModel):
     text: str
 
 
-def resource_check():
+def resource_check() -> None:
     if not os.environ.get("OPENAI_API_KEY"):
         raise ValueError("OPENAI_API_KEY not set")
 
 
 @app.post("/create_cards")
-async def create_cards(card_request_data: CardRequestData):
+async def create_cards(card_request_data: CardRequestData) -> str:
     resource_check()
 
     text = card_request_data.text

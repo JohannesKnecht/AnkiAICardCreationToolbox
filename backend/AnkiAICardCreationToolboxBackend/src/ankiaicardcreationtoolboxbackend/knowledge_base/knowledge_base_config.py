@@ -10,7 +10,7 @@ else:
 BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE = "BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE"
 ANKI_FORMATTING_GUIDELINES = "ANKI_FORMATTING_GUIDELINES"
 
-knowledge_base_config = {
+knowledge_base_config: dict[str, dict[str, str]] = {
     BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE: {
         "url": 'https://www.supermemo.com/en/blog/twenty-rules-of-formulating-knowledge',
         "additional_info": "",

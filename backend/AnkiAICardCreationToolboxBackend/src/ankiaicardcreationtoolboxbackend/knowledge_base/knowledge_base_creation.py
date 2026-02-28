@@ -10,7 +10,7 @@ from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config impor
     PROJECT_KNOWLEDGE_BASE_DIR
 
 
-def create_knowledge_base(url, json_name, additional_info, knowledge_base_dir=None):
+def create_knowledge_base(url: str, json_name: str, additional_info: str, knowledge_base_dir: str | None = None) -> None:
     if knowledge_base_dir is None:
         knowledge_base_dir = PROJECT_KNOWLEDGE_BASE_DIR
 
@@ -26,7 +26,7 @@ def create_knowledge_base(url, json_name, additional_info, knowledge_base_dir=No
         json.dump({"data": response}, outfile)
 
 
-def create_knowledge_base_with_config(config, name, knowledge_base_dir):
+def create_knowledge_base_with_config(config: dict[str, str], name: str, knowledge_base_dir: str | None) -> None:
     create_knowledge_base(
         url=config["url"],
         json_name=name,
@@ -35,7 +35,7 @@ def create_knowledge_base_with_config(config, name, knowledge_base_dir):
     )
 
 
-def create_knowledge_base_with_config_name(name, knowledge_base_dir):
+def create_knowledge_base_with_config_name(name: str, knowledge_base_dir: str | None) -> None:
     create_knowledge_base_with_config(
         config=knowledge_base_config[name],
         name=name,
