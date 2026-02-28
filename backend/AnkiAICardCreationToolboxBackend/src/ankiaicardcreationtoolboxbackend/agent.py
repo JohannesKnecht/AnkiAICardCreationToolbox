@@ -1,7 +1,6 @@
 import os
-from typing import Any
 
-from fastapi import FastAPI
+from langgraph.graph import CompiledStateGraph
 from deepagents import create_deep_agent
 
 from ankiaicardcreationtoolboxbackend.tools import best_practices_of_formulating_knowledge, anki_formatting_guidelines
@@ -11,7 +10,7 @@ _model_override = os.environ.get("OPENAI_MODEL_OVERRIDE")
 AGENT_MODEL = f"openai:{_model_override}" if _model_override else DEFAULT_AGENT_MODEL
 
 
-def create_agent() -> Any:
+def create_agent() -> CompiledStateGraph:
     return create_deep_agent(
         tools=[
             best_practices_of_formulating_knowledge,

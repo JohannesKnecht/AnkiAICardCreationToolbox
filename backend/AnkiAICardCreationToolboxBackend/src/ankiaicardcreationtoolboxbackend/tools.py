@@ -1,11 +1,10 @@
 import json
-from typing import Any
 
 from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config import \
     BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE, ANKI_FORMATTING_GUIDELINES, PROJECT_KNOWLEDGE_BASE_DIR
 
 
-def get_data(file: str) -> Any:
+def get_data(file: str) -> dict[str, str]:
     with open(f"{PROJECT_KNOWLEDGE_BASE_DIR}/{file}.json", 'r') as file:
         return json.load(file)
 
