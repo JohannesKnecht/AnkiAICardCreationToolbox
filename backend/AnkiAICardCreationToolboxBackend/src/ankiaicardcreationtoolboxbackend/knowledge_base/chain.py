@@ -1,3 +1,5 @@
+"""LangChain model and message construction for knowledge base creation."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -13,10 +15,12 @@ MODEL_NAME = "gpt-5-nano"
 
 
 def get_model() -> BaseChatModel:
+    """Return the chat model used for knowledge base summarisation."""
     return init_chat_model(MODEL_NAME)
 
 
 def get_messages(data: str, additional_info: str) -> list[BaseMessage]:
+    """Build the message list for the knowledge base summarisation chain."""
     system_msg = SystemMessage(
         """
         Turn this document into a maximally concise document.

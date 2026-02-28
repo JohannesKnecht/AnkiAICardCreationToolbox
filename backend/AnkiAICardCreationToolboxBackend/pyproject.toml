@@ -63,12 +63,16 @@ select = [
     "B",    # flake8-bugbear
     "SIM",  # flake8-simplify
     "TCH",  # flake8-type-checking
+    "D",    # pydocstyle
 ]
 ignore = []
 fixable = ["ALL"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["ankiaicardcreationtoolboxbackend"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 [tool.ty.environment]
 root = ["src"]
