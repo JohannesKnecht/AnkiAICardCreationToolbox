@@ -22,22 +22,22 @@
       "*": "allow",
       "*.env": "deny",
       "*.env.*": "deny",
-      ".git/*": "deny",
-      "data/*": "deny"
+      "*/.git/*": "deny",
+      "*/data/*": "deny"
     },
     "edit": {
       "*": "allow",
       "*.env": "deny",
       "*.env.*": "deny",
-      ".git/*": "deny",
-      "data/*": "deny"
+      "*/.git/*": "deny",
+      "*/data/*": "deny"
     },
     "grep": {
       "*": "allow",
       "*.env": "deny",
       "*.env.*": "deny",
-      ".git/*": "deny",
-      "data/*": "deny"
+      "*/.git/*": "deny",
+      "*/data/*": "deny"
     },
     "glob": "allow",
     "list": "allow",
