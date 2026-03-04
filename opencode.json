@@ -1,56 +1,50 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "copilot/claude-opus-4.6",
-  "small_model": "copilot/claude-opus-4.6",
+  "model": "github-copilot/claude-opus-4.6",
+  "small_model": "github-copilot/claude-opus-4.6",
   "agent": {
     "build": {
       "mode": "primary",
-      "model": "copilot/claude-opus-4.6"
+      "model": "github-copilot/claude-opus-4.6"
     },
     "plan": {
       "mode": "primary",
-      "model": "copilot/claude-opus-4.6"
+      "model": "github-copilot/claude-opus-4.6"
     },
     "code-reviewer": {
-      "description": "Reviews code for best practices and potential issues",
       "mode": "subagent",
-      "model": "copilot/claude-opus-4.6"
+      "model": "github-copilot/claude-opus-4.6"
     }
   },
   "permission": {
     "*": "ask",
     "read": {
-      "*": "ask",
-      "*.py": "allow",
+      "*": "allow",
       "*.env": "deny",
-      "*.env.*": "deny"
+      "*.env.*": "deny",
+      ".git": "deny",
+      "data": "deny"
     },
     "edit": {
-      "*": "ask",
-      "*.py": "allow",
+      "*": "allow",
       "*.env": "deny",
-      "*.env.*": "deny"
+      "*.env.*": "deny",
+      ".git": "deny",
+      "data": "deny"
     },
     "grep": {
-      "*": "ask",
-      "*.py": "allow",
+      "*": "allow",
       "*.env": "deny",
-      "*.env.*": "deny"
+      "*.env.*": "deny",
+      ".git": "deny",
+      "data": "deny"
     },
-    "glob": {
-      "*": "ask",
-      "*.py": "allow",
-      "*.env": "deny",
-      "*.env.*": "deny"
-    },
-    "list": {
-      "*": "ask",
-      "*.py": "allow",
-      "*.env": "deny",
-      "*.env.*": "deny"
-    },
+    "glob": "allow",
+    "list": "allow",
     "question": "allow",
     "todoread": "allow",
-    "todowrite": "allow"
+    "todowrite": "allow",
+    "git log *": "allow",
+    "git branch -a": "allow"
   }
 }
