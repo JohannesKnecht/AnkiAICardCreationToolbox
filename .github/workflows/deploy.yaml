@@ -20,8 +20,6 @@ jobs:
 
   TestApi:
     runs-on: ubuntu-latest
-    env:
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     defaults:
       run:
         working-directory: ./backend/AnkiAICardCreationToolboxBackend
@@ -53,6 +51,9 @@ jobs:
         run: uv run ty check
 
       - name: Run Tests
+        env:
+          # PRs run with mocked LLM calls (empty key); pushes to main use the real API key.
+          OPENAI_API_KEY: ${{ github.event_name == 'push' && secrets.OPENAI_API_KEY || '' }}
         run: uv run pytest
 
   TestFrontend:
