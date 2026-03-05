@@ -14,7 +14,7 @@ MOCK_LLM = os.environ.get("_MOCK_OPENAI") == "1" or not os.environ.get("OPENAI_A
 
 if MOCK_LLM:
     os.environ["_MOCK_OPENAI"] = "1"
-    os.environ.setdefault("OPENAI_API_KEY", "mock-key-for-testing")
+    os.environ["OPENAI_API_KEY"] = "mock-key-for-testing"
 
     from langchain_core.messages import AIMessage
     from langchain_core.outputs import ChatGeneration, ChatResult
