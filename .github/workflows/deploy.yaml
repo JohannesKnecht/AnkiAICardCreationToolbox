@@ -52,6 +52,7 @@ jobs:
 
       - name: Run Tests
         env:
+          # PRs run with mocked LLM calls (empty key); pushes to main use the real API key.
           OPENAI_API_KEY: ${{ github.event_name == 'push' && secrets.OPENAI_API_KEY || '' }}
         run: uv run pytest
 
