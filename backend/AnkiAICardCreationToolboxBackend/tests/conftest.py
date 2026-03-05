@@ -35,9 +35,6 @@ if MOCK_LLM:
     # patch is active before any test code runs – including inside pytest-xdist workers.
     patch("langchain_openai.chat_models.base.BaseChatOpenAI._generate", _mock_generate).start()
 
-    # Mock trafilatura network calls used by knowledge-base creation.
-    patch("trafilatura.fetch_url", return_value="<html>Mocked</html>").start()
-    patch("trafilatura.extract", return_value="Mocked extracted text content").start()
 else:
     # Use the cheapest model for real API tests unless explicitly overridden
     if not os.environ.get("OPENAI_MODEL_OVERRIDE"):
