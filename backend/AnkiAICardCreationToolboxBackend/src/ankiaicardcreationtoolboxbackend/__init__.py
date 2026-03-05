@@ -1,30 +1,52 @@
-import os
+"""Anki AI Card Creation Toolbox backend package."""
+
+import asyncio
 
 from dotenv import load_dotenv
 
-from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config import \
-    BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE, ANKI_FORMATTING_GUIDELINES, knowledge_base_config
-from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_creation import create_knowledge_base, \
-    create_knowledge_base_with_config, create_knowledge_base_with_config_name
+from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config import (
+    ANKI_FORMATTING_GUIDELINES,
+    BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE,
+)
+from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_creation import (
+    create_knowledge_base_with_config_name,
+)
 from ankiaicardcreationtoolboxbackend.main import CardRequestData, create_cards
 
 load_dotenv()
 
 
 def main() -> None:
-    create_cards(CardRequestData(text="HTTP Basics"))
+    """Run the default card creation for HTTP Basics."""
+    asyncio.run(create_cards(CardRequestData(text="HTTP Basics")))
 
 
-def invoke_best_practices_of_formulating_knowledge(knowledge_base_dir=None) -> None:
-    create_knowledge_base_with_config_name(BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE,
-                                           knowledge_base_dir)
+def invoke_best_practices_of_formulating_knowledge(knowledge_base_dir: str | None = None) -> None:
+    """Create the best practices of formulating knowledge base.
+
+    Args:
+        knowledge_base_dir: Directory to store the knowledge base files.
+            Defaults to the project data directory.
+    """
+    create_knowledge_base_with_config_name(BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE, knowledge_base_dir)
 
 
-def invoke_anki_formatting_guidelines(knowledge_base_dir=None) -> None:
-    create_knowledge_base_with_config_name(ANKI_FORMATTING_GUIDELINES,
-                                           knowledge_base_dir)
+def invoke_anki_formatting_guidelines(knowledge_base_dir: str | None = None) -> None:
+    """Create the Anki formatting guidelines knowledge base.
+
+    Args:
+        knowledge_base_dir: Directory to store the knowledge base files.
+            Defaults to the project data directory.
+    """
+    create_knowledge_base_with_config_name(ANKI_FORMATTING_GUIDELINES, knowledge_base_dir)
 
 
-def invoke_knowledge_base_creation(knowledge_base_dir=None) -> None:
+def invoke_knowledge_base_creation(knowledge_base_dir: str | None = None) -> None:
+    """Create all knowledge bases.
+
+    Args:
+        knowledge_base_dir: Directory to store the knowledge base files.
+            Defaults to the project data directory.
+    """
     invoke_best_practices_of_formulating_knowledge(knowledge_base_dir)
     invoke_anki_formatting_guidelines(knowledge_base_dir)

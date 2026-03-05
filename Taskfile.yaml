@@ -34,6 +34,13 @@ tasks:
           CONTEXT_PATH: frontend/AnkiAICardCreationFrontend/
 
 
+  lint-backend:
+    dir: backend/AnkiAICardCreationToolboxBackend
+    cmds:
+      - uv run ruff format .
+      - uv run ruff check --fix .
+      - uv run ty check
+
   build-image:
     internal: true
     cmds:

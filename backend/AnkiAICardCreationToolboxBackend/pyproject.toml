@@ -21,6 +21,8 @@ dev = [
     "pytest>=9.0.2",
     "httpx>=0.28.1", # required for fastapi testing
     "pytest-xdist>=3.8.0",
+    "ruff>=0.11.0",
+    "ty>=0.0.1",
 ]
 
 
@@ -45,4 +47,33 @@ members = [
 
 [tool.uv]
 default-groups = "all"
+
+[tool.ruff]
+target-version = "py314"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "N",    # pep8-naming
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "TCH",  # flake8-type-checking
+    "D",    # pydocstyle
+]
+ignore = []
+fixable = ["ALL"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["ankiaicardcreationtoolboxbackend"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ty.environment]
+root = ["src"]
 
