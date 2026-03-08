@@ -42,10 +42,9 @@ def get_messages(data: str, additional_info: str) -> list[BaseMessage]:
     )
     human_msg = HumanMessage(data)
 
-    messages = (
-        [system_msg]
-        + ([SystemMessage(f"Additionally consider {additional_info}")] if additional_info != "" else [])
-        + [human_msg]
-    )
+    messages: list[BaseMessage] = [system_msg]
+    if additional_info != "":
+        messages.append(SystemMessage(f"Additionally consider {additional_info}"))
+    messages.append(human_msg)
 
     return messages
