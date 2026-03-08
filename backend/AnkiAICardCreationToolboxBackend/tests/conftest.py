@@ -23,6 +23,7 @@ if MOCK_LLM:
         """Return a fake ChatResult for all OpenAI model calls."""
         # Responses API (used by deepagents) returns content as a list of blocks;
         # Chat Completions API returns content as a plain string.
+        content: str | list[str | dict]
         if getattr(self, "use_responses_api", False):
             content = [{"type": "text", "text": "Mocked http response content"}]
         else:
