@@ -6,19 +6,35 @@ updates:
     directory: "frontend/AnkiAICardCreationFrontend"
     schedule:
       interval: "daily"
+    groups:
+      all-npm-dependencies:
+        patterns:
+          - "*"
 
   - package-ecosystem: "uv"
     directory: "backend/AnkiAICardCreationToolboxBackend"
     schedule:
       interval: "daily"
+    groups:
+      all-uv-dependencies:
+        patterns:
+          - "*"
 
   - package-ecosystem: "docker"
     directory: "backend/AnkiAICardCreationToolboxBackend"
     schedule:
       interval: "daily"
+    groups:
+      all-docker-backend-dependencies:
+        patterns:
+          - "*"
 
   - package-ecosystem: "docker"
     directory: "frontend/AnkiAICardCreationFrontend"
     schedule:
       interval: "daily"
+    groups:
+      all-docker-frontend-dependencies:
+        patterns:
+          - "*"
 
