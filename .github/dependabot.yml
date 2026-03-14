@@ -6,6 +6,8 @@ updates:
     directory: "frontend/AnkiAICardCreationFrontend"
     schedule:
       interval: "daily"
+    reviewers:
+      - "JohannesKnecht"
     groups:
       all-npm-dependencies:
         patterns:
@@ -15,6 +17,8 @@ updates:
     directory: "backend/AnkiAICardCreationToolboxBackend"
     schedule:
       interval: "daily"
+    reviewers:
+      - "JohannesKnecht"
     groups:
       all-uv-dependencies:
         patterns:
@@ -24,6 +28,8 @@ updates:
     directory: "backend/AnkiAICardCreationToolboxBackend"
     schedule:
       interval: "daily"
+    reviewers:
+      - "JohannesKnecht"
     groups:
       all-docker-backend-dependencies:
         patterns:
@@ -33,6 +39,8 @@ updates:
     directory: "frontend/AnkiAICardCreationFrontend"
     schedule:
       interval: "daily"
+    reviewers:
+      - "JohannesKnecht"
     groups:
       all-docker-frontend-dependencies:
         patterns:
