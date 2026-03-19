@@ -21,7 +21,8 @@ def _fetch_html(url: str) -> str | None:
     Sends only gzip/deflate in ``Accept-Encoding`` to prevent servers from
     returning ZSTD-compressed data that trafilatura cannot reliably decompress
     (``zstandard.decompress`` fails for streaming ZSTD frames that omit the
-    content-size field in the frame header).
+    content-size field in the frame header). Also sends a browser-like
+    ``User-Agent`` so servers that block plain Python clients respond normally.
 
     Args:
         url: The web URL to fetch.
@@ -32,7 +33,14 @@ def _fetch_html(url: str) -> str | None:
     try:
         response = requests.get(
             url,
-            headers={"Accept-Encoding": "gzip, deflate"},
+            headers={
+                "Accept-Encoding": "gzip, deflate",
+                "User-Agent": (
+                    "Mozilla/5.0 (X11; Linux x86_64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/122.0.0.0 Safari/537.36"
+                ),
+            },
             timeout=30,
         )
         response.raise_for_status()
