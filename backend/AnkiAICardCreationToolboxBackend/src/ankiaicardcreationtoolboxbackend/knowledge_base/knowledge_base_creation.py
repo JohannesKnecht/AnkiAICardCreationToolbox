@@ -35,6 +35,14 @@ def create_knowledge_base(
     downloaded = trafilatura.fetch_url(url)
     if downloaded is None:
         logger.warning("trafilatura.fetch_url returned None for %s — page could not be retrieved", url)
+    else:
+        logger.debug(
+            "trafilatura.fetch_url fetched %s: type=%s, length=%d, first_bytes=%r",
+            url,
+            type(downloaded).__name__,
+            len(downloaded),
+            downloaded[:64],
+        )
 
     data = trafilatura.extract(downloaded)
 
@@ -42,6 +50,12 @@ def create_knowledge_base(
         json.dump({"data": data}, outfile)
 
     if data is None:
+        logger.warning(
+            "trafilatura.extract returned None for %s (downloaded type=%s, length=%s)",
+            url,
+            type(downloaded).__name__,
+            len(downloaded) if downloaded is not None else "N/A",
+        )
         msg = f"Failed to extract content from {url}"
         raise ValueError(msg)
 
