@@ -35,15 +35,6 @@ if MOCK_LLM:
     # how the caller obtained the model instance.  Applied at module scope so the
     # patch is active before any test code runs – including inside pytest-xdist workers.
     patch("langchain_openai.chat_models.base.BaseChatOpenAI._generate", _mock_generate).start()
-    # Avoid network flakiness in knowledge-base creation tests by mocking trafilatura.
-    patch(
-        "ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_creation.trafilatura.fetch_url",
-        return_value="<html><body>Mock page</body></html>",
-    ).start()
-    patch(
-        "ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_creation.trafilatura.extract",
-        return_value="Mocked extracted content",
-    ).start()
 
 else:
     # Use the cheapest model for real API tests unless explicitly overridden
