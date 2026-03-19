@@ -12,6 +12,7 @@ dependencies = [
     "pip>=26.0.1",
     "deepagents>=0.4.3",
     "python-dotenv>=1.2.1",
+    "requests>=2.32.0",
     "trafilatura>=2.0.0",
     "zstandard>=0.22.0",
 ]

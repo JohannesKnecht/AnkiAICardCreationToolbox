@@ -3,6 +3,7 @@
 import json
 import logging
 
+import requests
 import trafilatura
 
 from ankiaicardcreationtoolboxbackend.knowledge_base.chain import get_messages, get_model
@@ -12,6 +13,33 @@ from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config impor
 )
 
 logger = logging.getLogger(__name__)
+
+
+def _fetch_html(url: str) -> str | None:
+    """Fetch URL content as an HTML string.
+
+    Sends only gzip/deflate in ``Accept-Encoding`` to prevent servers from
+    returning ZSTD-compressed data that trafilatura cannot reliably decompress
+    (``zstandard.decompress`` fails for streaming ZSTD frames that omit the
+    content-size field in the frame header).
+
+    Args:
+        url: The web URL to fetch.
+
+    Returns:
+        The decoded HTML text, or ``None`` if the request fails.
+    """
+    try:
+        response = requests.get(
+            url,
+            headers={"Accept-Encoding": "gzip, deflate"},
+            timeout=30,
+        )
+        response.raise_for_status()
+        return response.text
+    except requests.RequestException as exc:
+        logger.warning("Failed to fetch page from %s: %s", url, exc)
+        return None
 
 
 def create_knowledge_base(
@@ -32,17 +60,7 @@ def create_knowledge_base(
     if knowledge_base_dir is None:
         knowledge_base_dir = PROJECT_KNOWLEDGE_BASE_DIR
 
-    downloaded = trafilatura.fetch_url(url)
-    if downloaded is None:
-        logger.warning("trafilatura.fetch_url returned None for %s — page could not be retrieved", url)
-    else:
-        logger.debug(
-            "trafilatura.fetch_url fetched %s: type=%s, length=%d, first_bytes=%r",
-            url,
-            type(downloaded).__name__,
-            len(downloaded),
-            downloaded[:64],
-        )
+    downloaded = _fetch_html(url)
 
     data = trafilatura.extract(downloaded)
 
@@ -50,12 +68,7 @@ def create_knowledge_base(
         json.dump({"data": data}, outfile)
 
     if data is None:
-        logger.warning(
-            "trafilatura.extract returned None for %s (downloaded type=%s, length=%s)",
-            url,
-            type(downloaded).__name__,
-            len(downloaded) if downloaded is not None else "N/A",
-        )
+        logger.warning("trafilatura.extract returned None for %s", url)
         msg = f"Failed to extract content from {url}"
         raise ValueError(msg)
 

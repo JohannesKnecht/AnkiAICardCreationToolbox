@@ -84,6 +84,7 @@ dependencies = [
     { name = "langchain-openai" },
     { name = "pip" },
     { name = "python-dotenv" },
+    { name = "requests" },
     { name = "trafilatura" },
     { name = "zstandard" },
 ]
@@ -104,6 +105,7 @@ requires-dist = [
     { name = "langchain-openai", specifier = ">=1.1.10" },
     { name = "pip", specifier = ">=26.0.1" },
     { name = "python-dotenv", specifier = ">=1.2.1" },
+    { name = "requests", specifier = ">=2.32.0" },
     { name = "trafilatura", specifier = ">=2.0.0" },
     { name = "zstandard", specifier = ">=0.22.0" },
 ]
