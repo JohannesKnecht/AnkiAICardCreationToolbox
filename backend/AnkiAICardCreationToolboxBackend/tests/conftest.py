@@ -36,6 +36,17 @@ if MOCK_LLM:
     # patch is active before any test code runs – including inside pytest-xdist workers.
     patch("langchain_openai.chat_models.base.BaseChatOpenAI._generate", _mock_generate).start()
 
+    # Patch trafilatura so knowledge-base tests don't require outbound network access
+    # when there is no real OpenAI key (i.e. in CI for PRs).
+    patch(
+        "ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_creation.trafilatura.fetch_url",
+        return_value="<html><body><p>Mocked page content for testing.</p></body></html>",
+    ).start()
+    patch(
+        "ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_creation.trafilatura.extract",
+        return_value="Mocked page content for testing.",
+    ).start()
+
 else:
     # Use the cheapest model for real API tests unless explicitly overridden
     if not os.environ.get("OPENAI_MODEL_OVERRIDE"):
