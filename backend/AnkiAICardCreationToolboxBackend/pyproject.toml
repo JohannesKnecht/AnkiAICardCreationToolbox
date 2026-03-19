@@ -13,6 +13,7 @@ dependencies = [
     "deepagents>=0.4.3",
     "python-dotenv>=1.2.1",
     "trafilatura>=2.0.0",
+    "zstandard>=0.22.0",
 ]
 
 
