@@ -2,6 +2,17 @@
 
 version: 2
 updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "JohannesKnecht"
+    groups:
+      all-github-actions-dependencies:
+        patterns:
+          - "*"
+
   - package-ecosystem: "npm"
     directory: "frontend/AnkiAICardCreationFrontend"
     schedule:
@@ -25,24 +36,15 @@ updates:
           - "*"
 
   - package-ecosystem: "docker"
-    directory: "backend/AnkiAICardCreationToolboxBackend"
+    directories:
+      - "backend/AnkiAICardCreationToolboxBackend"
+      - "frontend/AnkiAICardCreationFrontend"
     schedule:
       interval: "daily"
     reviewers:
       - "JohannesKnecht"
     groups:
-      all-docker-backend-dependencies:
-        patterns:
-          - "*"
-
-  - package-ecosystem: "docker"
-    directory: "frontend/AnkiAICardCreationFrontend"
-    schedule:
-      interval: "daily"
-    reviewers:
-      - "JohannesKnecht"
-    groups:
-      all-docker-frontend-dependencies:
+      all-docker-dependencies:
         patterns:
           - "*"
 
