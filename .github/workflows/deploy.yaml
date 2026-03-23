@@ -26,12 +26,12 @@ jobs:
       run:
         working-directory: ./backend/AnkiAICardCreationToolboxBackend
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
 
       - name: Use Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.9'
+          python-version: '3.14'
 
       - name: Install uv
         run: |
@@ -66,10 +66,10 @@ jobs:
       run:
         working-directory: ./frontend/AnkiAICardCreationFrontend
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
 
       - name: Use Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v6
         with:
           node-version: '25.x'
 
@@ -95,8 +95,8 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: hashicorp/setup-terraform@v2
+      - uses: actions/checkout@v6
+      - uses: hashicorp/setup-terraform@v4
       - uses: 'google-github-actions/auth@v3'
         with:
           service_account: 'ankiaicardcreationtoolboxsa@ankiaicardcreationtoolbox.iam.gserviceaccount.com'
@@ -131,7 +131,7 @@ jobs:
       id-token: 'write'
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - uses: 'google-github-actions/auth@v3'
         with:
           service_account: 'ankiaicardcreationtoolboxsa@ankiaicardcreationtoolbox.iam.gserviceaccount.com'
@@ -144,7 +144,7 @@ jobs:
         run: 'gcloud info'
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v4
         with:
           terraform_wrapper: false
 
@@ -194,7 +194,7 @@ jobs:
       id-token: 'write'
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - id: auth
         uses: 'google-github-actions/auth@v3'
         with:
@@ -211,18 +211,18 @@ jobs:
 
       - name: 'Login to GCR'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: docker/login-action@v1
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: 'Build and push fe Docker image'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: frontend/AnkiAICardCreationFrontend
           platforms: linux/amd64
@@ -254,7 +254,7 @@ jobs:
       id-token: 'write'
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - id: auth
         uses: 'google-github-actions/auth@v3'
         with:
@@ -271,18 +271,18 @@ jobs:
 
       - name: 'Login to GCR'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: docker/login-action@v1
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: 'Build and push be Docker image'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: backend/AnkiAICardCreationToolboxBackend/
           platforms: linux/amd64
@@ -321,7 +321,7 @@ jobs:
       id-token: 'write'
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - name: 'Wait for function to start'
         run: |
