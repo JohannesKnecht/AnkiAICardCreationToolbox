@@ -7,6 +7,23 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Always mock outbound HTTP requests used by _fetch_html so tests never contact
+# external sites (e.g. supermemo.com blocks automated requests).
+_mock_http_response = MagicMock()
+_mock_http_response.text = "<html><body><p>Mock page content for testing.</p></body></html>"
+_mock_http_response.raise_for_status = lambda: None
+patch(
+    "ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_creation.requests.get",
+    return_value=_mock_http_response,
+).start()
+
+# Always patch trafilatura.extract so it returns predictable text without
+# processing the mocked HTML through the real extraction pipeline.
+patch(
+    "ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_creation.trafilatura.extract",
+    return_value="Mock extracted text content for testing.",
+).start()
+
 # Detect mock mode.  The master pytest process sees no key and sets
 # _MOCK_OPENAI=1 + a dummy key.  pytest-xdist workers inherit both
 # env-vars, so they can detect mock mode reliably via the flag.
@@ -35,23 +52,6 @@ if MOCK_LLM:
     # how the caller obtained the model instance.  Applied at module scope so the
     # patch is active before any test code runs – including inside pytest-xdist workers.
     patch("langchain_openai.chat_models.base.BaseChatOpenAI._generate", _mock_generate).start()
-
-    # Patch outbound HTTP requests used by _fetch_html so tests never contact
-    # external sites (e.g. supermemo.com blocks automated requests).
-    _mock_http_response = MagicMock()
-    _mock_http_response.text = "<html><body><p>Mock page content for testing.</p></body></html>"
-    _mock_http_response.raise_for_status = lambda: None
-    patch(
-        "ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_creation.requests.get",
-        return_value=_mock_http_response,
-    ).start()
-
-    # Patch trafilatura.extract so it returns predictable text without
-    # processing the mocked HTML through the real extraction pipeline.
-    patch(
-        "ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_creation.trafilatura.extract",
-        return_value="Mock extracted text content for testing.",
-    ).start()
 
 else:
     # Use the cheapest model for real API tests unless explicitly overridden
