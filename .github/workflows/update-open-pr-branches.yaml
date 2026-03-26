@@ -21,6 +21,7 @@ jobs:
           python - <<'PY'
           import json
           import os
+          import sys
           import urllib.error
           import urllib.request
 
@@ -69,12 +70,12 @@ jobs:
               next_url = None
               for part in link_header.split(","):
                   if 'rel="next"' in part:
-                      next_url = part.split(";")[0].strip()[1:-1]
+                      next_url = part.split(";")[0].strip().strip("<>")
                       break
 
           if not open_prs:
               print("No open pull requests found.")
-              raise SystemExit(0)
+              sys.exit(0)
 
           print(f"Found {len(open_prs)} open pull request(s).")
 
@@ -102,7 +103,7 @@ jobs:
                   print(f"Queued update for PR #{pr_number}: {pr_title}")
                   updated_count += 1
               elif status == 422:
-                  print(f"Skipped PR #{pr_number}: already up to date or not updateable ({payload})")
+                  print(f"Skipped PR #{pr_number}: already up to date or not updatable ({payload})")
                   skipped_count += 1
               else:
                   print(f"Failed to update PR #{pr_number} (status {status}): {payload}")
