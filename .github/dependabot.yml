@@ -6,6 +6,8 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 1
     reviewers:
       - "JohannesKnecht"
     groups:
@@ -17,6 +19,8 @@ updates:
     directory: "frontend/AnkiAICardCreationFrontend"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 1
     reviewers:
       - "JohannesKnecht"
     groups:
@@ -28,6 +32,8 @@ updates:
     directory: "backend/AnkiAICardCreationToolboxBackend"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 1
     reviewers:
       - "JohannesKnecht"
     groups:
@@ -41,6 +47,8 @@ updates:
       - "frontend/AnkiAICardCreationFrontend"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 1
     reviewers:
       - "JohannesKnecht"
     groups:
