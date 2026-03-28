@@ -8,6 +8,8 @@ multi-ecosystem-groups:
       interval: "daily"
       time: "18:00"
       timezone: "Europe/Berlin"
+    assignees:
+      - "JohannesKnecht"
 
 updates:
   - package-ecosystem: "github-actions"
@@ -18,9 +20,6 @@ updates:
       timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
-    reviewers:
-      - "JohannesKnecht"
-    draft-pull-requests: false
     patterns:
       - "*"
     multi-ecosystem-group: "all-dependencies"
@@ -33,9 +32,6 @@ updates:
       timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
-    reviewers:
-      - "JohannesKnecht"
-    draft-pull-requests: false
     patterns:
       - "*"
     multi-ecosystem-group: "all-dependencies"
@@ -48,9 +44,6 @@ updates:
       timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
-    reviewers:
-      - "JohannesKnecht"
-    draft-pull-requests: false
     patterns:
       - "*"
     multi-ecosystem-group: "all-dependencies"
@@ -65,9 +58,6 @@ updates:
       timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
-    reviewers:
-      - "JohannesKnecht"
-    draft-pull-requests: false
     patterns:
       - "*"
     multi-ecosystem-group: "all-dependencies"
