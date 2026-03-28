@@ -6,12 +6,16 @@ multi-ecosystem-groups:
   all-dependencies:
     schedule:
       interval: "daily"
+      time: "18:00"
+      timezone: "Europe/Berlin"
 
 updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
+      time: "18:00"
+      timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
     reviewers:
@@ -24,6 +28,8 @@ updates:
     directory: "frontend/AnkiAICardCreationFrontend"
     schedule:
       interval: "daily"
+      time: "18:00"
+      timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
     reviewers:
@@ -36,6 +42,8 @@ updates:
     directory: "backend/AnkiAICardCreationToolboxBackend"
     schedule:
       interval: "daily"
+      time: "18:00"
+      timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
     reviewers:
@@ -50,6 +58,8 @@ updates:
       - "frontend/AnkiAICardCreationFrontend"
     schedule:
       interval: "daily"
+      time: "18:00"
+      timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
     reviewers:
