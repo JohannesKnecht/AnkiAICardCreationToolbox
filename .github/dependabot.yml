@@ -8,6 +8,7 @@ multi-ecosystem-groups:
       interval: "daily"
       time: "18:00"
       timezone: "Europe/Berlin"
+    draft-pull-requests: false
 
 updates:
   - package-ecosystem: "github-actions"
