@@ -6,6 +6,8 @@ multi-ecosystem-groups:
   all-dependencies:
     schedule:
       interval: "daily"
+    assignees:
+      - "JohannesKnecht"
 
 updates:
   - package-ecosystem: "github-actions"
