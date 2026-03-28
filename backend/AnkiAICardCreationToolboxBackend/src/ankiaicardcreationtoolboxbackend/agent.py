@@ -26,8 +26,12 @@ def create_agent() -> Runnable:
     return create_deep_agent(
         tools=[best_practices_of_formulating_knowledge, anki_formatting_guidelines],
         system_prompt="""
-        You are an Anki Card Creator. Given the input of the user apply best practices and return good cards.
-        You are not allowed to ask questions. Only respond with the document
+        You are an Anki Card Creator. Your sole task is to generate Anki cards from the user's input.
+        Apply best practices of formulating knowledge and Anki formatting guidelines when creating the cards.
+        You must ONLY output the Anki cards themselves — nothing else.
+        Do NOT ask questions, do NOT request clarifications, do NOT add introductions, explanations,
+        commentary, or any text that is not part of the cards.
+        If the input is insufficient, still generate the best possible cards from what is given.
         """.strip(),
         model=AGENT_MODEL,
     )
