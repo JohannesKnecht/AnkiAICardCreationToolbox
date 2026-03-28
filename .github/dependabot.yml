@@ -16,6 +16,8 @@ updates:
       default-days: 1
     reviewers:
       - "JohannesKnecht"
+    patterns:
+      - "*"
     multi-ecosystem-group: "all-dependencies"
 
   - package-ecosystem: "npm"
@@ -26,6 +28,8 @@ updates:
       default-days: 1
     reviewers:
       - "JohannesKnecht"
+    patterns:
+      - "*"
     multi-ecosystem-group: "all-dependencies"
 
   - package-ecosystem: "uv"
@@ -36,6 +40,8 @@ updates:
       default-days: 1
     reviewers:
       - "JohannesKnecht"
+    patterns:
+      - "*"
     multi-ecosystem-group: "all-dependencies"
 
   - package-ecosystem: "docker"
@@ -48,4 +54,6 @@ updates:
       default-days: 1
     reviewers:
       - "JohannesKnecht"
+    patterns:
+      - "*"
     multi-ecosystem-group: "all-dependencies"
