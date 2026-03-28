@@ -1,6 +1,12 @@
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
+
+multi-ecosystem-groups:
+  all-dependencies:
+    schedule:
+      interval: "daily"
+
 updates:
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -10,10 +16,9 @@ updates:
       default-days: 1
     reviewers:
       - "JohannesKnecht"
-    groups:
-      all-github-actions-dependencies:
-        patterns:
-          - "*"
+    patterns:
+      - "*"
+    multi-ecosystem-group: "all-dependencies"
 
   - package-ecosystem: "npm"
     directory: "frontend/AnkiAICardCreationFrontend"
@@ -23,10 +28,9 @@ updates:
       default-days: 1
     reviewers:
       - "JohannesKnecht"
-    groups:
-      all-npm-dependencies:
-        patterns:
-          - "*"
+    patterns:
+      - "*"
+    multi-ecosystem-group: "all-dependencies"
 
   - package-ecosystem: "uv"
     directory: "backend/AnkiAICardCreationToolboxBackend"
@@ -36,10 +40,9 @@ updates:
       default-days: 1
     reviewers:
       - "JohannesKnecht"
-    groups:
-      all-uv-dependencies:
-        patterns:
-          - "*"
+    patterns:
+      - "*"
+    multi-ecosystem-group: "all-dependencies"
 
   - package-ecosystem: "docker"
     directories:
@@ -51,8 +54,6 @@ updates:
       default-days: 1
     reviewers:
       - "JohannesKnecht"
-    groups:
-      all-docker-dependencies:
-        patterns:
-          - "*"
-
+    patterns:
+      - "*"
+    multi-ecosystem-group: "all-dependencies"
