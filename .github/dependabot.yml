@@ -16,8 +16,6 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 1
-    reviewers:
-      - "JohannesKnecht"
     patterns:
       - "*"
     multi-ecosystem-group: "all-dependencies"
@@ -28,8 +26,6 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 1
-    reviewers:
-      - "JohannesKnecht"
     patterns:
       - "*"
     multi-ecosystem-group: "all-dependencies"
@@ -40,8 +36,6 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 1
-    reviewers:
-      - "JohannesKnecht"
     patterns:
       - "*"
     multi-ecosystem-group: "all-dependencies"
@@ -54,8 +48,6 @@ updates:
       interval: "daily"
     cooldown:
       default-days: 1
-    reviewers:
-      - "JohannesKnecht"
     patterns:
       - "*"
     multi-ecosystem-group: "all-dependencies"
