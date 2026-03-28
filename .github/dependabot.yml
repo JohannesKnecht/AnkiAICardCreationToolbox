@@ -6,6 +6,8 @@ multi-ecosystem-groups:
   all-dependencies:
     schedule:
       interval: "daily"
+      time: "18:00"
+      timezone: "Europe/Berlin"
     assignees:
       - "JohannesKnecht"
 
@@ -14,6 +16,8 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+      time: "18:00"
+      timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
     patterns:
@@ -24,6 +28,8 @@ updates:
     directory: "frontend/AnkiAICardCreationFrontend"
     schedule:
       interval: "daily"
+      time: "18:00"
+      timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
     patterns:
@@ -34,6 +40,8 @@ updates:
     directory: "backend/AnkiAICardCreationToolboxBackend"
     schedule:
       interval: "daily"
+      time: "18:00"
+      timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
     patterns:
@@ -46,6 +54,8 @@ updates:
       - "frontend/AnkiAICardCreationFrontend"
     schedule:
       interval: "daily"
+      time: "18:00"
+      timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
     patterns:
