@@ -14,50 +14,26 @@ multi-ecosystem-groups:
 updates:
   - package-ecosystem: "github-actions"
     directory: "/"
-    schedule:
-      interval: "daily"
-      time: "18:00"
-      timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
-    patterns:
-      - "*"
     multi-ecosystem-group: "all-dependencies"
 
   - package-ecosystem: "npm"
     directory: "/frontend/AnkiAICardCreationFrontend"
-    schedule:
-      interval: "daily"
-      time: "18:00"
-      timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
-    patterns:
-      - "*"
     multi-ecosystem-group: "all-dependencies"
 
   - package-ecosystem: "uv"
     directory: "/backend/AnkiAICardCreationToolboxBackend"
-    schedule:
-      interval: "daily"
-      time: "18:00"
-      timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
-    patterns:
-      - "*"
     multi-ecosystem-group: "all-dependencies"
 
   - package-ecosystem: "docker"
     directories:
       - "/backend/AnkiAICardCreationToolboxBackend"
       - "/frontend/AnkiAICardCreationFrontend"
-    schedule:
-      interval: "daily"
-      time: "18:00"
-      timezone: "Europe/Berlin"
     cooldown:
       default-days: 1
-    patterns:
-      - "*"
     multi-ecosystem-group: "all-dependencies"
