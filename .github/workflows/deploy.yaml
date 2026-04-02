@@ -73,11 +73,11 @@ jobs:
         with:
           node-version: '25.x'
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Security Audit (lockfile)
+        run: npm audit --package-lock-only --audit-level=critical
 
-      - name: Security Audit
-        run: npm audit --audit-level=high
+      - name: Install Dependencies
+        run: npm ci
 
       - name: Build
         run: npm run build
