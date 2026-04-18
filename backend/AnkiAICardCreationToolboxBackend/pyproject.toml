@@ -5,24 +5,26 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-    "fastapi[standard]>=0.131.0",
+    "fastapi[standard]>=0.135.3",
     #"langchain>=1.2.10",
-    "langchain-openai>=1.1.10",
+    "langchain-openai>=1.1.13",
     #"langgraph>=1.0.9",
     "pip>=26.0.1",
-    "deepagents>=0.4.3",
+    "deepagents>=0.5.3",
     "python-dotenv>=1.2.1",
+    "requests>=2.33.1",
     "trafilatura>=2.0.0",
+    "zstandard>=0.22.0",
 ]
 
 
 [dependency-groups]
 dev = [
-    "pytest>=9.0.2",
+    "pytest>=9.0.3",
     "httpx>=0.28.1", # required for fastapi testing
     "pytest-xdist>=3.8.0",
-    "ruff>=0.11.0",
-    "ty>=0.0.1",
+    "ruff>=0.15.10",
+    "ty>=0.0.31",
 ]
 
 
@@ -36,7 +38,7 @@ invoke_knowledge_base_creation = "ankiaicardcreationtoolboxbackend:invoke_knowle
 
 
 [build-system]
-requires = ["uv_build>=0.9.26,<0.11.0"]
+requires = ["uv_build>=0.11.6,<0.12.0"]
 build-backend = "uv_build"
 
 

@@ -1,7 +1,9 @@
 """Knowledge base creation from web sources."""
 
 import json
+import logging
 
+import requests
 import trafilatura
 
 from ankiaicardcreationtoolboxbackend.knowledge_base.chain import get_messages, get_model
@@ -9,6 +11,43 @@ from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config impor
     PROJECT_KNOWLEDGE_BASE_DIR,
     knowledge_base_config,
 )
+
+logger = logging.getLogger(__name__)
+
+
+def _fetch_html(url: str) -> str | None:
+    """Fetch URL content as an HTML string.
+
+    Sends only gzip/deflate in ``Accept-Encoding`` to prevent servers from
+    returning ZSTD-compressed data that trafilatura cannot reliably decompress
+    (``zstandard.decompress`` fails for streaming ZSTD frames that omit the
+    content-size field in the frame header). Also sends a browser-like
+    ``User-Agent`` so servers that block plain Python clients respond normally.
+
+    Args:
+        url: The web URL to fetch.
+
+    Returns:
+        The decoded HTML text, or ``None`` if the request fails.
+    """
+    try:
+        response = requests.get(
+            url,
+            headers={
+                "Accept-Encoding": "gzip, deflate",
+                "User-Agent": (
+                    "Mozilla/5.0 (X11; Linux x86_64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/122.0.0.0 Safari/537.36"
+                ),
+            },
+            timeout=30,
+        )
+        response.raise_for_status()
+        return response.text
+    except requests.RequestException as exc:
+        logger.warning("Failed to fetch page from %s: %s", url, exc)
+        return None
 
 
 def create_knowledge_base(
@@ -22,17 +61,22 @@ def create_knowledge_base(
         additional_info: Extra instructions for the summarisation model.
         knowledge_base_dir: Directory to store the output files.
             Defaults to the project data directory.
+
+    Raises:
+        ValueError: When text cannot be extracted from the fetched page.
     """
     if knowledge_base_dir is None:
         knowledge_base_dir = PROJECT_KNOWLEDGE_BASE_DIR
 
-    downloaded = trafilatura.fetch_url(url)
+    downloaded = _fetch_html(url)
+
     data = trafilatura.extract(downloaded)
 
     with open(f"{knowledge_base_dir}/{json_name}_raw.json", "w") as outfile:
         json.dump({"data": data}, outfile)
 
     if data is None:
+        logger.warning("trafilatura.extract returned None for %s", url)
         msg = f"Failed to extract content from {url}"
         raise ValueError(msg)
 

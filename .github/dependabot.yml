@@ -1,24 +1,39 @@
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "frontend/AnkiAICardCreationFrontend"
+
+multi-ecosystem-groups:
+  all-dependencies:
     schedule:
       interval: "daily"
+      time: "18:00"
+      timezone: "Europe/Berlin"
+    assignees:
+      - "JohannesKnecht"
+
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    cooldown:
+      default-days: 1
+    multi-ecosystem-group: "all-dependencies"
+
+  - package-ecosystem: "npm"
+    directory: "/frontend/AnkiAICardCreationFrontend"
+    cooldown:
+      default-days: 1
+    multi-ecosystem-group: "all-dependencies"
 
   - package-ecosystem: "uv"
-    directory: "backend/AnkiAICardCreationToolboxBackend"
-    schedule:
-      interval: "daily"
+    directory: "/backend/AnkiAICardCreationToolboxBackend"
+    cooldown:
+      default-days: 1
+    multi-ecosystem-group: "all-dependencies"
 
   - package-ecosystem: "docker"
-    directory: "backend/AnkiAICardCreationToolboxBackend"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "docker"
-    directory: "frontend/AnkiAICardCreationFrontend"
-    schedule:
-      interval: "daily"
-
+    directories:
+      - "/backend/AnkiAICardCreationToolboxBackend"
+      - "/frontend/AnkiAICardCreationFrontend"
+    cooldown:
+      default-days: 1
+    multi-ecosystem-group: "all-dependencies"
