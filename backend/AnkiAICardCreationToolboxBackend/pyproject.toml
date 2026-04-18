@@ -5,9 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-    "fastapi[standard]>=0.135.3",
+    "fastapi[standard]>=0.136.0",
     #"langchain>=1.2.10",
-    "langchain-openai>=1.1.13",
+    "langchain-openai>=1.1.14",
     #"langgraph>=1.0.9",
     "pip>=26.0.1",
     "deepagents>=0.5.3",
@@ -38,7 +38,7 @@ invoke_knowledge_base_creation = "ankiaicardcreationtoolboxbackend:invoke_knowle
 
 
 [build-system]
-requires = ["uv_build>=0.11.6,<0.12.0"]
+requires = ["uv_build>=0.11.7,<0.12.0"]
 build-backend = "uv_build"
 
 
