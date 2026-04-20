@@ -23,7 +23,7 @@ dev = [
     "pytest>=9.0.3",
     "httpx>=0.28.1", # required for fastapi testing
     "pytest-xdist>=3.8.0",
-    "ruff>=0.15.10",
+    "ruff>=0.15.11",
     "ty>=0.0.31",
 ]
 
