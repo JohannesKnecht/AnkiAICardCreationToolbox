@@ -1,9 +1,8 @@
 """Anki AI Card Creation Toolbox backend package."""
 
-import asyncio
-
 from dotenv import load_dotenv
 
+from ankiaicardcreationtoolboxbackend.agent import get_agent_response
 from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config import (
     ANKI_FORMATTING_GUIDELINES,
     BEST_PRACTICES_OF_FORMULATING_KNOWLEDGE,
@@ -11,14 +10,13 @@ from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_config impor
 from ankiaicardcreationtoolboxbackend.knowledge_base.knowledge_base_creation import (
     create_knowledge_base_with_config_name,
 )
-from ankiaicardcreationtoolboxbackend.main import CardRequestData, create_cards
 
 load_dotenv()
 
 
 def main() -> None:
     """Run the default card creation for HTTP Basics."""
-    asyncio.run(create_cards(CardRequestData(text="HTTP Basics")))
+    get_agent_response("HTTP Basics")
 
 
 def invoke_best_practices_of_formulating_knowledge(knowledge_base_dir: str | None = None) -> None:
