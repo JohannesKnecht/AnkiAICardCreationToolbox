@@ -18,7 +18,7 @@ def test_read_main():
     """Verify that the create_cards endpoint returns a successful JSON response."""
     response = client.post("/create_cards", json={"text": "Anki Karten zur Funktionsweise von HTTP"})
     assert response.status_code == 200
-    response.json()  # test json deocing
+    response.json()  # test json decoding
     assert "http" in response.text.lower()
 
 
@@ -31,8 +31,9 @@ def test_rate_limit_blocks_second_request_from_same_ip():
     assert second.status_code == 429
 
 
-def test_rate_limit_is_applied_per_ip():
+def test_rate_limit_is_applied_per_ip(monkeypatch):
     """Verify different client IPs have independent rate limits."""
+    monkeypatch.setenv("TRUST_X_FORWARDED_FOR", "1")
     first_ip = {"x-forwarded-for": "1.2.3.4"}
     second_ip = {"x-forwarded-for": "5.6.7.8"}
 

@@ -50,20 +50,29 @@ def clear_rate_limit_state() -> None:
 
 def _get_client_ip(request: Request) -> str:
     """Extract the most relevant client IP for rate limiting."""
-    forwarded_for = request.headers.get("x-forwarded-for")
-    if forwarded_for:
-        return forwarded_for.split(",")[0].strip()
+    if os.environ.get("TRUST_X_FORWARDED_FOR") == "1":
+        forwarded_for = request.headers.get("x-forwarded-for")
+        if forwarded_for:
+            return forwarded_for.split(",")[0].strip()
     if request.client and request.client.host:
         return request.client.host
     return "unknown"
 
 
 def _enforce_rate_limit(request: Request) -> None:
-    """Allow only one request per IP within the configured time window."""
+    """Allow only one request per IP within the configured time window.
+
+    This is an in-memory, per-process limit intended as a basic safeguard.
+    """
     client_ip = _get_client_ip(request)
     now = monotonic()
 
     with _rate_limit_lock:
+        expiration_cutoff = now - RATE_LIMIT_WINDOW_SECONDS
+        for ip, last_request_time in list(_last_request_time_per_ip.items()):
+            if last_request_time < expiration_cutoff:
+                _last_request_time_per_ip.pop(ip, None)
+
         last_request_time = _last_request_time_per_ip.get(client_ip)
         if last_request_time is not None and now - last_request_time < RATE_LIMIT_WINDOW_SECONDS:
             raise HTTPException(status_code=429, detail="Too many requests. Try again in a few minutes.")
