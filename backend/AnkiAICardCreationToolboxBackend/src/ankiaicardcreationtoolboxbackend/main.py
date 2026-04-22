@@ -54,7 +54,11 @@ def clear_rate_limit_state() -> None:
 
 
 def _get_client_ip(request: Request) -> str:
-    """Extract the most relevant client IP for rate limiting."""
+    """Extract the most relevant client IP for rate limiting.
+
+    `TRUST_X_FORWARDED_FOR` should only be enabled behind a trusted proxy that
+    sanitizes inbound forwarding headers.
+    """
     trust_forwarded_for = os.environ.get("TRUST_X_FORWARDED_FOR", "").lower() in {"1", "true", "yes"}
     if trust_forwarded_for:
         forwarded_for = request.headers.get("x-forwarded-for")
