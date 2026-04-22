@@ -16,7 +16,7 @@ load_dotenv()
 
 def main() -> None:
     """Run the default card creation for HTTP Basics."""
-    get_agent_response("HTTP Basics")
+    print(get_agent_response("HTTP Basics"))
 
 
 def invoke_best_practices_of_formulating_knowledge(knowledge_base_dir: str | None = None) -> None:

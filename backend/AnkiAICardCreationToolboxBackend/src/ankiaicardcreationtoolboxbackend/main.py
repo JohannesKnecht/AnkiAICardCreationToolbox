@@ -78,9 +78,13 @@ def _enforce_rate_limit(request: Request) -> None:
         _request_counter += 1
         if _request_counter % RATE_LIMIT_CLEANUP_EVERY_REQUESTS == 0:
             expiration_cutoff = now - RATE_LIMIT_WINDOW_SECONDS
-            for ip, last_request_time in list(_last_request_time_per_ip.items()):
-                if last_request_time < expiration_cutoff:
-                    del _last_request_time_per_ip[ip]
+            active_entries = {
+                ip: last_request_time
+                for ip, last_request_time in _last_request_time_per_ip.items()
+                if last_request_time >= expiration_cutoff
+            }
+            _last_request_time_per_ip.clear()
+            _last_request_time_per_ip.update(active_entries)
 
         last_request_time = _last_request_time_per_ip.get(client_ip)
         if last_request_time is not None and now - last_request_time < RATE_LIMIT_WINDOW_SECONDS:
