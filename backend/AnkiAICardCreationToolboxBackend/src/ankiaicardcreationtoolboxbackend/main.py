@@ -66,7 +66,7 @@ def _get_client_ip(request: Request) -> str:
             return forwarded_for.split(",")[0].strip()
     if request.client and request.client.host:
         return request.client.host
-    return "unknown"
+    raise HTTPException(status_code=400, detail="Unable to determine client IP")
 
 
 def _enforce_rate_limit(request: Request) -> None:
@@ -112,8 +112,8 @@ async def create_cards(card_request_data: CardRequestData, request: Request) -> 
     Returns:
         The generated Anki cards as a string.
     """
-    _enforce_rate_limit(request)
     resource_check()
+    _enforce_rate_limit(request)
 
     text = card_request_data.text
     if len(text) > 1000:
