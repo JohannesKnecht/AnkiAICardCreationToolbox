@@ -29,6 +29,7 @@ def test_rate_limit_blocks_second_request_from_same_ip():
 
     second = client.post("/create_cards", json={"text": "second request"})
     assert second.status_code == 429
+    assert second.headers["retry-after"].isdigit()
 
 
 def test_rate_limit_is_applied_per_ip(monkeypatch):

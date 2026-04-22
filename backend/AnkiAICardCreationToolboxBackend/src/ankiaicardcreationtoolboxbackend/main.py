@@ -1,6 +1,7 @@
 """FastAPI application for Anki AI card creation."""
 
 import os
+from math import ceil
 from threading import Lock
 from time import monotonic
 
@@ -12,8 +13,10 @@ from ankiaicardcreationtoolboxbackend.agent import get_agent_response
 
 app = FastAPI()
 RATE_LIMIT_WINDOW_SECONDS = 10 * 60
+RATE_LIMIT_CLEANUP_EVERY_REQUESTS = 100
 _last_request_time_per_ip: dict[str, float] = {}
 _rate_limit_lock = Lock()
+_request_counter = 0
 
 origins = [
     "http://localhost",
@@ -45,7 +48,9 @@ def resource_check() -> None:
 def clear_rate_limit_state() -> None:
     """Clear in-memory rate-limit state."""
     with _rate_limit_lock:
+        global _request_counter  # noqa: PLW0603
         _last_request_time_per_ip.clear()
+        _request_counter = 0
 
 
 def _get_client_ip(request: Request) -> str:
@@ -68,14 +73,22 @@ def _enforce_rate_limit(request: Request) -> None:
     now = monotonic()
 
     with _rate_limit_lock:
-        expiration_cutoff = now - RATE_LIMIT_WINDOW_SECONDS
-        for ip, last_request_time in list(_last_request_time_per_ip.items()):
-            if last_request_time < expiration_cutoff:
-                _last_request_time_per_ip.pop(ip, None)
+        global _request_counter  # noqa: PLW0603
+        _request_counter += 1
+        if _request_counter % RATE_LIMIT_CLEANUP_EVERY_REQUESTS == 0:
+            expiration_cutoff = now - RATE_LIMIT_WINDOW_SECONDS
+            for ip, last_request_time in list(_last_request_time_per_ip.items()):
+                if last_request_time < expiration_cutoff:
+                    _last_request_time_per_ip.pop(ip, None)
 
         last_request_time = _last_request_time_per_ip.get(client_ip)
         if last_request_time is not None and now - last_request_time < RATE_LIMIT_WINDOW_SECONDS:
-            raise HTTPException(status_code=429, detail="Too many requests. Try again in a few minutes.")
+            retry_after_seconds = ceil(RATE_LIMIT_WINDOW_SECONDS - (now - last_request_time))
+            raise HTTPException(
+                status_code=429,
+                detail="Too many requests. Try again later.",
+                headers={"Retry-After": str(retry_after_seconds)},
+            )
         _last_request_time_per_ip[client_ip] = now
 
 
