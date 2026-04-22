@@ -55,7 +55,8 @@ def clear_rate_limit_state() -> None:
 
 def _get_client_ip(request: Request) -> str:
     """Extract the most relevant client IP for rate limiting."""
-    if os.environ.get("TRUST_X_FORWARDED_FOR") == "1":
+    trust_forwarded_for = os.environ.get("TRUST_X_FORWARDED_FOR", "").lower() in {"1", "true", "yes"}
+    if trust_forwarded_for:
         forwarded_for = request.headers.get("x-forwarded-for")
         if forwarded_for:
             return forwarded_for.split(",")[0].strip()
@@ -79,7 +80,7 @@ def _enforce_rate_limit(request: Request) -> None:
             expiration_cutoff = now - RATE_LIMIT_WINDOW_SECONDS
             for ip, last_request_time in list(_last_request_time_per_ip.items()):
                 if last_request_time < expiration_cutoff:
-                    _last_request_time_per_ip.pop(ip, None)
+                    del _last_request_time_per_ip[ip]
 
         last_request_time = _last_request_time_per_ip.get(client_ip)
         if last_request_time is not None and now - last_request_time < RATE_LIMIT_WINDOW_SECONDS:
