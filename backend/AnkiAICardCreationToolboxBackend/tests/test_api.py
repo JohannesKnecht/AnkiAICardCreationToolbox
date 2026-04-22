@@ -43,4 +43,3 @@ def test_rate_limit_is_applied_per_ip(monkeypatch):
 
     assert first.status_code == 200
     assert second.status_code == 200
-    monkeypatch.delenv("TRUST_X_FORWARDED_FOR", raising=False)
