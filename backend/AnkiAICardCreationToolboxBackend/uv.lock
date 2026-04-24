@@ -102,7 +102,7 @@ dev = [
 requires-dist = [
     { name = "deepagents", specifier = ">=0.5.3" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.136.0" },
-    { name = "langchain-openai", specifier = ">=1.1.15" },
+    { name = "langchain-openai", specifier = ">=1.2.0" },
     { name = "pip", specifier = ">=26.0.1" },
     { name = "python-dotenv", specifier = ">=1.2.1" },
     { name = "requests", specifier = ">=2.33.1" },
@@ -858,16 +858,16 @@ wheels = [
 
 [[package]]
 name = "langchain-openai"
-version = "1.1.15"
+version = "1.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "langchain-core" },
     { name = "openai" },
     { name = "tiktoken" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/86/1e/ed50e1c44f36be6ba97b56b09f1a6be5906098b4ba1e6f8a0f661a54a5f5/langchain_openai-1.1.15.tar.gz", hash = "sha256:16ddb7481853991fd00691dfd01bcc5cdf60cb36aa6962b38c8a4939f0538ba0", size = 1115780, upload-time = "2026-04-20T19:57:09.281Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/dc/69/0ea9dabd903f750315ab31b8b85dad64f2927e56ddc26252dfe4e4ac2c40/langchain_openai-1.2.0.tar.gz", hash = "sha256:e88edf16002b9ed8e206161181c8a6fb2b3662da23195e0a844d040c3f93ab10", size = 1136352, upload-time = "2026-04-23T00:43:35.31Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2d/29/a357935f8d75ce4fc7c32bbc887c026295e98a9e4ded6daf434d150c5d44/langchain_openai-1.1.15-py3-none-any.whl", hash = "sha256:069022b6cba2108fac2450d3bf6c888e20a2af92bf89b493638456ef4db0d900", size = 88797, upload-time = "2026-04-20T19:57:07.683Z" },
+    { url = "https://files.pythonhosted.org/packages/2c/7b/e8c3beeab0ca042529533072ebee69c66327c1805b3133531b58c422baab/langchain_openai-1.2.0-py3-none-any.whl", hash = "sha256:b3ed14dc48e40890605136f26c6b07e8f293987d95e734ab67cbfa572c523456", size = 98592, upload-time = "2026-04-23T00:43:34.135Z" },
 ]
 
 [[package]]
