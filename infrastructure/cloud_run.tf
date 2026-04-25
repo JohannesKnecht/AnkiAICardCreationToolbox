@@ -19,8 +19,8 @@ resource "google_cloud_run_v2_service" "backend_service" {
       }
       resources {
         limits = {
-          cpu    = "2"
-          memory = "1024Mi"
+          cpu    = "1"
+          memory = "512Mi"
         }
       }
     }
@@ -44,8 +44,8 @@ resource "google_cloud_run_v2_service" "frontend_service" {
       image = "gcr.io/ankiaicardcreationtoolbox/ankiaicardcreationtoolboxfrontend"
       resources {
         limits = {
-          cpu    = "2"
-          memory = "1024Mi"
+          cpu    = "1"
+          memory = "512Mi"
         }
       }
     }
