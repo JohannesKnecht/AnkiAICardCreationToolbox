@@ -238,7 +238,7 @@ jobs:
       - name: 'Deploy fe to Cloud Run'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
-          gcloud run deploy ${{ needs.terraform.outputs.frontend_name }} \
+          gcloud run services update ${{ needs.terraform.outputs.frontend_name }} \
             --image ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.FE_IMAGE_NAME }}:latest \
             --region $LOCATION
 
@@ -306,7 +306,7 @@ jobs:
       - name: 'Deploy be to Cloud Run'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
-          gcloud run deploy ${{ needs.terraform.outputs.backend_name }} \
+          gcloud run services update ${{ needs.terraform.outputs.backend_name }} \
             --image ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.BE_IMAGE_NAME }}:latest \
             --update-secrets=OPENAI_API_KEY=openai:latest \
             --region $LOCATION
