@@ -1,0 +1,51 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "github-copilot/claude-opus-4.6",
+  "small_model": "github-copilot/claude-opus-4.6",
+  "agent": {
+    "build": {
+      "mode": "primary",
+      "model": "github-copilot/claude-opus-4.6"
+    },
+    "plan": {
+      "mode": "primary",
+      "model": "github-copilot/claude-opus-4.6"
+    },
+    "code-reviewer": {
+      "mode": "subagent",
+      "model": "github-copilot/claude-opus-4.6"
+    }
+  },
+  "permission": {
+    "*": "ask",
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*/.git/*": "deny",
+      "*/data/*": "deny"
+    },
+    "edit": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*/.git/*": "deny",
+      "*/data/*": "deny"
+    },
+    "grep": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*/.git/*": "deny",
+      "*/data/*": "deny"
+    },
+    "glob": "allow",
+    "list": "allow",
+    "question": "allow",
+    "todoread": "allow",
+    "todowrite": "allow",
+    "webfetch": "allow",
+    "git log *": "allow",
+    "git branch -a": "allow"
+  }
+}
