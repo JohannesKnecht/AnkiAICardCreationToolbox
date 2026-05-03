@@ -1,7 +1,7 @@
 """FastAPI application for Anki AI card creation."""
 
+import logging
 import os
-from contextlib import suppress
 from threading import Lock, Timer
 
 from fastapi import FastAPI, HTTPException
@@ -13,6 +13,7 @@ from ankiaicardcreationtoolboxbackend.agent import get_agent_response
 app = FastAPI()
 RATE_LIMIT_WINDOW_SECONDS = 10 * 60
 _rate_limit_window_lock = Lock()
+logger = logging.getLogger(__name__)
 
 origins = [
     "http://localhost",
@@ -43,8 +44,10 @@ def resource_check() -> None:
 
 def _release_rate_limit_lock() -> None:
     """Release the cooldown lock if it is currently held."""
-    with suppress(RuntimeError):
+    try:
         _rate_limit_window_lock.release()
+    except RuntimeError:
+        logger.debug("Rate limit lock was already released.")
 
 
 def clear_rate_limit_state() -> None:
@@ -61,9 +64,13 @@ def _enforce_rate_limit() -> None:
             headers={"Retry-After": str(RATE_LIMIT_WINDOW_SECONDS)},
         )
 
-    release_timer = Timer(RATE_LIMIT_WINDOW_SECONDS, _release_rate_limit_lock)
-    release_timer.daemon = True
-    release_timer.start()
+    try:
+        release_timer = Timer(RATE_LIMIT_WINDOW_SECONDS, _release_rate_limit_lock)
+        release_timer.daemon = True
+        release_timer.start()
+    except RuntimeError:
+        _release_rate_limit_lock()
+        raise
 
 
 @app.post("/create_cards")
