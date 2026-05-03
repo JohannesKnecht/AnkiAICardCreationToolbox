@@ -45,36 +45,23 @@ def resource_check() -> None:
 def clear_rate_limit_state() -> None:
     """Clear in-memory rate-limit state."""
     global _rate_limit_until
-    _rate_limit_until = None
-    try:
-        _rate_limit_window_lock.release()
-    except RuntimeError:
-        pass
+    with _rate_limit_window_lock:
+        _rate_limit_until = None
 
 
 def _enforce_rate_limit() -> None:
     """Allow only one request within the configured time window per process."""
     global _rate_limit_until
-
-    if not _rate_limit_window_lock.acquire(timeout=0):
-        raise HTTPException(
-            status_code=429,
-            detail="Too many requests. Try again later.",
-            headers={"Retry-After": str(RATE_LIMIT_WINDOW_SECONDS)},
-        )
-
-    now = time.monotonic()
-    if _rate_limit_until is not None and now < _rate_limit_until:
-        _rate_limit_window_lock.release()
-        retry_after = max(0, int(_rate_limit_until - now))
-        raise HTTPException(
-            status_code=429,
-            detail="Too many requests. Try again later.",
-            headers={"Retry-After": str(retry_after)},
-        )
-
-    _rate_limit_until = now + RATE_LIMIT_WINDOW_SECONDS
-    _rate_limit_window_lock.release()
+    with _rate_limit_window_lock:
+        now = time.monotonic()
+        if _rate_limit_until is not None and now < _rate_limit_until:
+            retry_after = max(0, int(_rate_limit_until - now))
+            raise HTTPException(
+                status_code=429,
+                detail="Too many requests. Try again later.",
+                headers={"Retry-After": str(retry_after)},
+            )
+        _rate_limit_until = now + RATE_LIMIT_WINDOW_SECONDS
 
 
 @app.post("/create_cards")
