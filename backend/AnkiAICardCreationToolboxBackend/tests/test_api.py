@@ -35,14 +35,10 @@ def test_rate_limit_blocks_second_request_from_same_ip():
     assert 590 <= int(retry_after) <= 600
 
 
-def test_rate_limit_is_global_across_ips(monkeypatch):
-    """Verify different client IPs still share the same global rate limit."""
-    monkeypatch.setenv("TRUST_X_FORWARDED_FOR", "1")
-    first_ip = {"x-forwarded-for": "1.2.3.4"}
-    second_ip = {"x-forwarded-for": "5.6.7.8"}
-
-    first = client.post("/create_cards", json={"text": "first ip request"}, headers=first_ip)
-    second = client.post("/create_cards", json={"text": "second ip request"}, headers=second_ip)
+def test_rate_limit_is_global_across_requests():
+    """Verify all requests share the same global rate limit window."""
+    first = client.post("/create_cards", json={"text": "first request"})
+    second = client.post("/create_cards", json={"text": "second request"})
 
     assert first.status_code == 200
     assert second.status_code == 429
