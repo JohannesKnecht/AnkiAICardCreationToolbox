@@ -1,9 +1,8 @@
 """FastAPI application for Anki AI card creation."""
 
 import os
-from math import ceil
-from threading import Lock
-from time import monotonic
+from contextlib import suppress
+from threading import Lock, Timer
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,8 +12,7 @@ from ankiaicardcreationtoolboxbackend.agent import get_agent_response
 
 app = FastAPI()
 RATE_LIMIT_WINDOW_SECONDS = 10 * 60
-_rate_limit_state = {"last_request_time": None}
-_rate_limit_lock = Lock()
+_rate_limit_window_lock = Lock()
 
 origins = [
     "http://localhost",
@@ -43,28 +41,29 @@ def resource_check() -> None:
         raise HTTPException(status_code=500, detail="OPENAI_API_KEY not set")
 
 
+def _release_rate_limit_lock() -> None:
+    """Release the cooldown lock if it is currently held."""
+    with suppress(RuntimeError):
+        _rate_limit_window_lock.release()
+
+
 def clear_rate_limit_state() -> None:
     """Clear in-memory rate-limit state."""
-    with _rate_limit_lock:
-        _rate_limit_state["last_request_time"] = None
+    _release_rate_limit_lock()
 
 
 def _enforce_rate_limit() -> None:
     """Allow only one request within the configured time window per process."""
-    now = monotonic()
+    if not _rate_limit_window_lock.acquire(blocking=False):
+        raise HTTPException(
+            status_code=429,
+            detail="Too many requests. Try again later.",
+            headers={"Retry-After": str(RATE_LIMIT_WINDOW_SECONDS)},
+        )
 
-    with _rate_limit_lock:
-        last_request_time = _rate_limit_state["last_request_time"]
-        if last_request_time is not None:
-            remaining_seconds = last_request_time + RATE_LIMIT_WINDOW_SECONDS - now
-            if remaining_seconds > 0:
-                raise HTTPException(
-                    status_code=429,
-                    detail="Too many requests. Try again later.",
-                    headers={"Retry-After": str(ceil(remaining_seconds))},
-                )
-
-        _rate_limit_state["last_request_time"] = now
+    release_timer = Timer(RATE_LIMIT_WINDOW_SECONDS, _release_rate_limit_lock)
+    release_timer.daemon = True
+    release_timer.start()
 
 
 @app.post("/create_cards")
