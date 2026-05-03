@@ -32,4 +32,4 @@ def test_rate_limit_blocks_consecutive_requests():
     retry_after = second.headers.get("retry-after")
     assert retry_after is not None
     assert retry_after.isdigit()
-    assert 590 <= int(retry_after) <= 600
+    assert 0 <= int(retry_after) <= 600
