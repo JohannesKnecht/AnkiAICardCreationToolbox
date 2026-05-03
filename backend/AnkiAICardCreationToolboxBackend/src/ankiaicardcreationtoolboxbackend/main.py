@@ -13,6 +13,7 @@ from ankiaicardcreationtoolboxbackend.agent import get_agent_response
 app = FastAPI()
 RATE_LIMIT_WINDOW_SECONDS = 10 * 60
 _rate_limit_window_lock = Lock()
+_rate_limit_state = {"timer": None}
 logger = logging.getLogger(__name__)
 
 origins = [
@@ -55,8 +56,19 @@ def _release_rate_limit_lock() -> bool:
         return False
 
 
+def _release_rate_limit_after_window() -> None:
+    """Release the cooldown lock and clear timer state after the window expires."""
+    _rate_limit_state["timer"] = None
+    _release_rate_limit_lock()
+
+
 def clear_rate_limit_state() -> None:
     """Clear in-memory rate-limit state."""
+    timer = _rate_limit_state["timer"]
+    if timer is not None:
+        timer.cancel()
+        _rate_limit_state["timer"] = None
+
     _release_rate_limit_lock()
 
 
@@ -70,13 +82,15 @@ def _enforce_rate_limit() -> None:
         )
 
     try:
-        release_timer = Timer(RATE_LIMIT_WINDOW_SECONDS, _release_rate_limit_lock)
+        release_timer = Timer(RATE_LIMIT_WINDOW_SECONDS, _release_rate_limit_after_window)
         release_timer.daemon = True
         release_timer.start()
-    except (RuntimeError, ValueError) as err:
+        _rate_limit_state["timer"] = release_timer
+    except RuntimeError as err:
         if not _release_rate_limit_lock():
             logger.exception("Failed to release rate limit lock after timer startup failure.")
             raise RuntimeError("Failed to release rate limit lock after timer startup failure.") from err
+
         logger.exception("Failed to start rate limit timer.")
         raise
 
