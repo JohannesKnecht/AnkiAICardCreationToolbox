@@ -13,7 +13,7 @@ from ankiaicardcreationtoolboxbackend.agent import get_agent_response
 
 app = FastAPI()
 RATE_LIMIT_WINDOW_SECONDS = 10 * 60
-_last_request_time: float | None = None
+_rate_limit_state = {"last_request_time": None}
 _rate_limit_lock = Lock()
 
 origins = [
@@ -46,8 +46,7 @@ def resource_check() -> None:
 def clear_rate_limit_state() -> None:
     """Clear in-memory rate-limit state."""
     with _rate_limit_lock:
-        global _last_request_time  # noqa: PLW0603
-        _last_request_time = None
+        _rate_limit_state["last_request_time"] = None
 
 
 def _enforce_rate_limit() -> None:
@@ -55,16 +54,17 @@ def _enforce_rate_limit() -> None:
     now = monotonic()
 
     with _rate_limit_lock:
-        global _last_request_time  # noqa: PLW0603
-        last_request_time = _last_request_time
-        if last_request_time is not None and now - last_request_time < RATE_LIMIT_WINDOW_SECONDS:
-            retry_after_seconds = ceil(RATE_LIMIT_WINDOW_SECONDS - (now - last_request_time))
-            raise HTTPException(
-                status_code=429,
-                detail="Too many requests. Try again later.",
-                headers={"Retry-After": str(retry_after_seconds)},
-            )
-        _last_request_time = now
+        last_request_time = _rate_limit_state["last_request_time"]
+        if last_request_time is not None:
+            retry_after_seconds = ceil(last_request_time + RATE_LIMIT_WINDOW_SECONDS - now)
+            if retry_after_seconds > 0:
+                raise HTTPException(
+                    status_code=429,
+                    detail="Too many requests. Try again later.",
+                    headers={"Retry-After": str(retry_after_seconds)},
+                )
+
+        _rate_limit_state["last_request_time"] = now
 
 
 @app.post("/create_cards")

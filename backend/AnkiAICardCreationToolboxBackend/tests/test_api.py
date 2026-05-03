@@ -22,7 +22,7 @@ def test_read_main():
     assert "http" in response.text.lower()
 
 
-def test_rate_limit_blocks_second_request_from_same_ip():
+def test_rate_limit_blocks_second_request():
     """Verify a second request within the window gets blocked."""
     first = client.post("/create_cards", json={"text": "first request"})
     assert first.status_code == 200
@@ -33,12 +33,3 @@ def test_rate_limit_blocks_second_request_from_same_ip():
     assert retry_after is not None
     assert retry_after.isdigit()
     assert 590 <= int(retry_after) <= 600
-
-
-def test_rate_limit_is_global_across_requests():
-    """Verify all requests share the same global rate limit window."""
-    first = client.post("/create_cards", json={"text": "first request"})
-    second = client.post("/create_cards", json={"text": "second request"})
-
-    assert first.status_code == 200
-    assert second.status_code == 429
