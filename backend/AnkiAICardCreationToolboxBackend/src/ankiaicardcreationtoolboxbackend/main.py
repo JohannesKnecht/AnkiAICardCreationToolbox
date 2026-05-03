@@ -42,12 +42,17 @@ def resource_check() -> None:
         raise HTTPException(status_code=500, detail="OPENAI_API_KEY not set")
 
 
-def _release_rate_limit_lock() -> None:
+def _release_rate_limit_lock() -> bool:
     """Release the cooldown lock if it is currently held."""
+    if not _rate_limit_window_lock.locked():
+        return False
+
     try:
         _rate_limit_window_lock.release()
+        return True
     except RuntimeError:
-        logger.debug("Rate limit lock is not currently held.")
+        logger.warning("Rate limit lock release raced with another release.")
+        return False
 
 
 def clear_rate_limit_state() -> None:
@@ -68,8 +73,10 @@ def _enforce_rate_limit() -> None:
         release_timer = Timer(RATE_LIMIT_WINDOW_SECONDS, _release_rate_limit_lock)
         release_timer.daemon = True
         release_timer.start()
-    except (RuntimeError, ValueError):
-        _release_rate_limit_lock()
+    except (RuntimeError, ValueError) as err:
+        if not _release_rate_limit_lock():
+            logger.exception("Failed to release rate limit lock after timer startup failure.")
+            raise RuntimeError("Failed to release rate limit lock after timer startup failure.") from err
         logger.exception("Failed to start rate limit timer.")
         raise
 
