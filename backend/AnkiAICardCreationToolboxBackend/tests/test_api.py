@@ -1,15 +1,35 @@
 """Tests for the FastAPI card creation endpoint."""
 
+import pytest
 from fastapi.testclient import TestClient
 
-from ankiaicardcreationtoolboxbackend.main import app
+from ankiaicardcreationtoolboxbackend.main import app, clear_rate_limit_state
 
 client = TestClient(app)
+
+
+@pytest.fixture(autouse=True)
+def clear_rate_limit_between_tests():
+    """Reset in-memory rate limiting so tests are independent."""
+    clear_rate_limit_state()
 
 
 def test_read_main():
     """Verify that the create_cards endpoint returns a successful JSON response."""
     response = client.post("/create_cards", json={"text": "Anki Karten zur Funktionsweise von HTTP"})
     assert response.status_code == 200
-    response.json()  # test json deocing
+    response.json()  # test json decoding
     assert "http" in response.text.lower()
+
+
+def test_rate_limit_blocks_consecutive_requests():
+    """Verify a second request within the window gets blocked."""
+    first = client.post("/create_cards", json={"text": "first request"})
+    assert first.status_code == 200
+
+    second = client.post("/create_cards", json={"text": "second request"})
+    assert second.status_code == 429
+    retry_after = second.headers.get("retry-after")
+    assert retry_after is not None
+    assert retry_after.isdigit()
+    assert 0 <= int(retry_after) <= 600
