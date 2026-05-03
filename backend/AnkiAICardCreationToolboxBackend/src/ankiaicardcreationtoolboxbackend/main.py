@@ -68,7 +68,7 @@ def _enforce_rate_limit() -> None:
         release_timer = Timer(RATE_LIMIT_WINDOW_SECONDS, _release_rate_limit_lock)
         release_timer.daemon = True
         release_timer.start()
-    except Exception:
+    except (RuntimeError, ValueError):
         _release_rate_limit_lock()
         raise
 
