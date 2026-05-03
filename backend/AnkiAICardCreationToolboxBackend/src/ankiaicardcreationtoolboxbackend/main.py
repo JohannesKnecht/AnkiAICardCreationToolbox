@@ -70,6 +70,7 @@ def _enforce_rate_limit() -> None:
         release_timer.start()
     except (RuntimeError, ValueError):
         _release_rate_limit_lock()
+        logger.exception("Failed to start rate limit timer.")
         raise
 
 
