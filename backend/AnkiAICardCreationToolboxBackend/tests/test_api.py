@@ -22,7 +22,7 @@ def test_read_main():
     assert "http" in response.text.lower()
 
 
-def test_rate_limit_blocks_second_request():
+def test_rate_limit_blocks_consecutive_requests():
     """Verify a second request within the window gets blocked."""
     first = client.post("/create_cards", json={"text": "first request"})
     assert first.status_code == 200
