@@ -47,7 +47,7 @@ def _release_rate_limit_lock() -> None:
     try:
         _rate_limit_window_lock.release()
     except RuntimeError:
-        logger.debug("Rate limit lock was already released.")
+        logger.debug("Rate limit lock is not currently held.")
 
 
 def clear_rate_limit_state() -> None:
@@ -68,7 +68,7 @@ def _enforce_rate_limit() -> None:
         release_timer = Timer(RATE_LIMIT_WINDOW_SECONDS, _release_rate_limit_lock)
         release_timer.daemon = True
         release_timer.start()
-    except RuntimeError:
+    except Exception:
         _release_rate_limit_lock()
         raise
 
