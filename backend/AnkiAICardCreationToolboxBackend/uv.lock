@@ -67,7 +67,7 @@ wheels = [
 
 [[package]]
 name = "anthropic"
-version = "0.98.0"
+version = "0.99.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -79,9 +79,9 @@ dependencies = [
     { name = "sniffio" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/0e/b9/1702127c175338407033ceb94c61f5eb538adbbf59d5d1baec7ccf8ad502/anthropic-0.98.0.tar.gz", hash = "sha256:b6943df4299dc09d1f1fdcdcae66cd4e9f7a2827d9d1d519ed0a7b0d47e8b787", size = 725023, upload-time = "2026-05-04T17:13:51.473Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/0d/c9/e8a3a1caeab575e80551b30b084096b5a430abc52739a526a1daaadd038c/anthropic-0.99.0.tar.gz", hash = "sha256:16f41e00f215ed2d193b146be3dd567c4319c32ed3af6c8725d68ba875257c1c", size = 727239, upload-time = "2026-05-05T16:03:07.986Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/01/73/cdc9d5b1c4601cc77a7bb21d54cfc0b86a2372b2e97bc49feeb952eabb57/anthropic-0.98.0-py3-none-any.whl", hash = "sha256:e79f4908a04582186b2f18cee2fff3c068c8d2ee4fe134e9aab423aaf74b7c80", size = 699604, upload-time = "2026-05-04T17:13:49.715Z" },
+    { url = "https://files.pythonhosted.org/packages/d1/84/d0917506744e1707cf55659a57f1e3ff952eda5636df0ffffe3e884b7c61/anthropic-0.99.0-py3-none-any.whl", hash = "sha256:c44469b746ab2ef19a4c52dcbdb98e17bc95c60bebdd18ec40d76d2d23592b49", size = 700564, upload-time = "2026-05-05T16:03:06.059Z" },
 ]
 
 [[package]]
@@ -487,7 +487,7 @@ requests = [
 
 [[package]]
 name = "google-genai"
-version = "1.74.0"
+version = "1.75.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -501,9 +501,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/33/c8/4a8f1de0a3268d526a345b8c74456b3e1e6ffd200982626326cf7ca83e5b/google_genai-1.74.0.tar.gz", hash = "sha256:c4c473cebdeb6e5adbb0639326de66a3a85a2209e0d32de7d66bf05c698abae8", size = 536772, upload-time = "2026-04-29T22:16:35.881Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/9d/59/3ed61240ef20b3ae6ed54e82c6f8b6d1f194947bc6679679dd6cdb037594/google_genai-1.75.0.tar.gz", hash = "sha256:56bac3991b311c93f980c0a2abcd287b672146905df1fbd71c92ed633d5a07cf", size = 539039, upload-time = "2026-05-04T22:48:54.857Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ca/2b/539c328b66f7bfef2df869371a1789361228e5a7694ba02a642608367b46/google_genai-1.74.0-py3-none-any.whl", hash = "sha256:87d0b311c67d4b2a0ca741e9fc6891330c29defae81d46d8db41079aa1a3d80a", size = 790433, upload-time = "2026-04-29T22:16:33.979Z" },
+    { url = "https://files.pythonhosted.org/packages/2d/b6/552d40e96da22921eb1fead7c14b00b5b5473a20e45959488660fab35ee2/google_genai-1.75.0-py3-none-any.whl", hash = "sha256:8dc4c096e7d6288c3087f6893f582fe52468932464781edb8193bd92b9fefb2c", size = 793726, upload-time = "2026-05-04T22:48:53.033Z" },
 ]
 
 [[package]]
