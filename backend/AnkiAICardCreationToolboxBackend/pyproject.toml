@@ -12,7 +12,7 @@ dependencies = [
     "pip>=26.1.1",
     "deepagents>=0.5.9",
     "python-dotenv>=1.2.1",
-    "requests>=2.33.1",
+    "requests>=2.34.0",
     "trafilatura>=2.0.0",
     "zstandard>=0.22.0",
 ]
@@ -38,7 +38,7 @@ invoke_knowledge_base_creation = "ankiaicardcreationtoolboxbackend:invoke_knowle
 
 
 [build-system]
-requires = ["uv_build>=0.11.12,<0.12.0"]
+requires = ["uv_build>=0.11.13,<0.12.0"]
 build-backend = "uv_build"
 
 
