@@ -10,9 +10,9 @@ dependencies = [
     "langchain-openai>=1.2.1",
     #"langgraph>=1.0.9",
     "pip>=26.1.1",
-    "deepagents>=0.6.1",
+    "deepagents>=0.6.2",
     "python-dotenv>=1.2.1",
-    "requests>=2.34.1",
+    "requests>=2.34.2",
     "trafilatura>=2.0.0",
     "zstandard>=0.22.0",
 ]
@@ -24,7 +24,7 @@ dev = [
     "httpx>=0.28.1", # required for fastapi testing
     "pytest-xdist>=3.8.0",
     "ruff>=0.15.13",
-    "ty>=0.0.35",
+    "ty>=0.0.38",
 ]
 
 
@@ -38,7 +38,7 @@ invoke_knowledge_base_creation = "ankiaicardcreationtoolboxbackend:invoke_knowle
 
 
 [build-system]
-requires = ["uv_build>=0.11.14,<0.12.0"]
+requires = ["uv_build>=0.11.15,<0.12.0"]
 build-backend = "uv_build"
 
 
