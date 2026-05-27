@@ -225,7 +225,7 @@ jobs:
 
       - name: 'Build and push fe Docker image'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: docker/build-push-action@v7
+        uses: docker/build-push-action@v7.1.0
         with:
           context: frontend/AnkiAICardCreationFrontend
           platforms: linux/amd64
@@ -285,7 +285,7 @@ jobs:
 
       - name: 'Build and push be Docker image'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: docker/build-push-action@v7
+        uses: docker/build-push-action@v7.1.0
         with:
           context: backend/AnkiAICardCreationToolboxBackend/
           platforms: linux/amd64
