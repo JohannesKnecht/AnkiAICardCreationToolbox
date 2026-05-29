@@ -18,7 +18,7 @@ def test_read_main():
     """Verify that the create_cards endpoint returns a successful plain-text response."""
     response = client.post("/create_cards", json={"text": "Anki Karten zur Funktionsweise von HTTP"})
     assert response.status_code == 200
-    assert response.headers["content-type"].startswith("text/plain")
+    assert response.headers["content-type"] == "text/plain; charset=utf-8"
     assert "http" in response.text.lower()
 
 
