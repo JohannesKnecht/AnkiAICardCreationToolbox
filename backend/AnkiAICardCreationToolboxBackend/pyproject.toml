@@ -10,7 +10,7 @@ dependencies = [
     "langchain-openai>=1.2.2",
     #"langgraph>=1.0.9",
     "pip>=26.1.1",
-    "deepagents>=0.6.4",
+    "deepagents>=0.6.5",
     "python-dotenv>=1.2.1",
     "requests>=2.34.2",
     "trafilatura>=2.0.0",
@@ -23,7 +23,7 @@ dev = [
     "pytest>=9.0.3",
     "httpx>=0.28.1", # required for fastapi testing
     "pytest-xdist>=3.8.0",
-    "ruff>=0.15.14",
+    "ruff>=0.15.15",
     "ty>=0.0.40",
 ]
 
