@@ -6,6 +6,7 @@ from threading import Lock
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel
 
 from ankiaicardcreationtoolboxbackend.agent import get_agent_response
@@ -64,7 +65,7 @@ def _enforce_rate_limit() -> None:
         _rate_limit_until = now + RATE_LIMIT_WINDOW_SECONDS
 
 
-@app.post("/create_cards")
+@app.post("/create_cards", response_class=PlainTextResponse)
 async def create_cards(card_request_data: CardRequestData) -> str:
     """Create Anki cards from the provided text.
 
@@ -72,7 +73,7 @@ async def create_cards(card_request_data: CardRequestData) -> str:
         card_request_data: The request body containing the text to create cards from.
 
     Returns:
-        The generated Anki cards as a string.
+        The generated Anki cards as plain text.
     """
     resource_check()
     _enforce_rate_limit()
