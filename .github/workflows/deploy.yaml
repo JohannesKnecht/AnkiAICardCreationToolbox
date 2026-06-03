@@ -26,7 +26,7 @@ jobs:
       run:
         working-directory: ./backend/AnkiAICardCreationToolboxBackend
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
 
       - name: Use Python
         uses: actions/setup-python@v6
@@ -66,7 +66,7 @@ jobs:
       run:
         working-directory: ./frontend/AnkiAICardCreationFrontend
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
 
       - name: Use Node.js
         uses: actions/setup-node@v6
@@ -98,7 +98,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
       - uses: hashicorp/setup-terraform@v4
       - uses: 'google-github-actions/auth@v3'
         with:
@@ -134,7 +134,7 @@ jobs:
       id-token: 'write'
       pull-requests: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
       - uses: 'google-github-actions/auth@v3'
         with:
           service_account: 'ankiaicardcreationtoolboxsa@ankiaicardcreationtoolbox.iam.gserviceaccount.com'
@@ -197,7 +197,7 @@ jobs:
       id-token: 'write'
       pull-requests: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
       - id: auth
         uses: 'google-github-actions/auth@v3'
         with:
@@ -257,7 +257,7 @@ jobs:
       id-token: 'write'
       pull-requests: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
       - id: auth
         uses: 'google-github-actions/auth@v3'
         with:
@@ -324,7 +324,7 @@ jobs:
       id-token: 'write'
       pull-requests: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
 
       - name: 'Wait for function to start'
         run: |
