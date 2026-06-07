@@ -38,7 +38,7 @@ describe('TextInput', () => {
   it('displays the response and Download button on successful fetch', async () => {
     vi.spyOn(global, 'fetch').mockResolvedValue({
       ok: true,
-      json: async () => ({ cards: ['Q: What is 2+2?', 'A: 4'] }),
+      text: async () => 'Q: What is 2+2?\tA: 4',
     } as Response)
 
     const wrapper = mount(TextInput)
@@ -80,7 +80,7 @@ describe('TextInput', () => {
   it('triggers a download when Download button is clicked', async () => {
     vi.spyOn(global, 'fetch').mockResolvedValue({
       ok: true,
-      json: async () => ({ cards: ['Q: What is 2+2?', 'A: 4'] }),
+      text: async () => 'Q: What is 2+2?\tA: 4',
     } as Response)
 
     const createObjectURL = vi.fn().mockReturnValue('blob:fake-url')
