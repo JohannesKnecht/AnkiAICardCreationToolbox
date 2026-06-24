@@ -13,7 +13,7 @@
     <div v-if="response" class="response">
       <strong>Response:</strong>
       <button @click="downloadResponse()">Download</button>
-      <p style="word-break: break-all">{{ response }}</p>
+      <pre class="response-text">{{ response }}</pre>
     </div>
   </div>
 </template>
@@ -52,9 +52,9 @@ async function sendRequest(): Promise<void> {
       throw new Error(`HTTP ${res.status}`)
     }
 
-    const data: unknown = await res.json()
+    const data: string = await res.text()
 
-    response.value = JSON.stringify(data, null, 2)
+    response.value = data
   } catch (err: unknown) {
     if (err instanceof Error) {
       error.value = err.message
@@ -110,5 +110,11 @@ button {
   background: #f4f4f4;
   padding: 10px;
   border-radius: 4px;
+}
+
+.response-text {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 </style>
