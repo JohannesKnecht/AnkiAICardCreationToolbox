@@ -214,7 +214,7 @@ jobs:
 
       - name: 'Login to GCR'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: docker/login-action@v4.2.0
+        uses: docker/login-action@v4.4.0
         with:
           registry: ${{ env.REGISTRY }}
           username: oauth2accesstoken
@@ -225,7 +225,7 @@ jobs:
 
       - name: 'Build and push fe Docker image'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: docker/build-push-action@v7.2.0
+        uses: docker/build-push-action@v7.3.0
         with:
           context: frontend/AnkiAICardCreationFrontend
           platforms: linux/amd64
@@ -274,7 +274,7 @@ jobs:
 
       - name: 'Login to GCR'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: docker/login-action@v4.2.0
+        uses: docker/login-action@v4.4.0
         with:
           registry: ${{ env.REGISTRY }}
           username: oauth2accesstoken
@@ -285,7 +285,7 @@ jobs:
 
       - name: 'Build and push be Docker image'
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: docker/build-push-action@v7.2.0
+        uses: docker/build-push-action@v7.3.0
         with:
           context: backend/AnkiAICardCreationToolboxBackend/
           platforms: linux/amd64
