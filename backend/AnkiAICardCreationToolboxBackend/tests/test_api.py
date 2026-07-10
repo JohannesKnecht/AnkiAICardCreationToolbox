@@ -15,10 +15,10 @@ def clear_rate_limit_between_tests():
 
 
 def test_read_main():
-    """Verify that the create_cards endpoint returns a successful JSON response."""
+    """Verify that the create_cards endpoint returns a successful plain-text response."""
     response = client.post("/create_cards", json={"text": "Anki Karten zur Funktionsweise von HTTP"})
     assert response.status_code == 200
-    response.json()  # test json decoding
+    assert response.headers["content-type"] == "text/plain; charset=utf-8"
     assert "http" in response.text.lower()
 
 
